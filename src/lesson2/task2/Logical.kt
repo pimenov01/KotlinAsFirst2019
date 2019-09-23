@@ -79,4 +79,14 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val minimum = minOf(min(a, b), c)
+    val maximum = maxOf(max(a, b), c)
+    val third = a + b + c - minimum - maximum
+    val wallminimum = min(r, s)
+    val wallmaximum = max(r, s)
+    return when {
+        minimum <= wallminimum && third <= wallmaximum -> true
+        else -> false
+    }
+}
