@@ -108,7 +108,7 @@ fun fib(n: Int): Int { //if (n <= 2) 1 else fib(n - 1) + fib(n - 2)
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun gcd(m: Int, n: Int): Int {
-    var k = max(m, n) / min(m, n)
+    val k = max(m, n) / min(m, n)
     var r = 0
     while (max(m, n) % min(m, n) != 0) {
         r = max(m, n) - k * min(m, n)
@@ -149,7 +149,7 @@ fun maxDivisor(n: Int): Int {
             if (n % i == 0) maximum = i else maximum
         }
         maximum
-    } else 2
+    } else 1
 }
 
 /**
