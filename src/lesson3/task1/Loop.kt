@@ -127,11 +127,11 @@ fun lcm(m: Int, n: Int): Int = TODO() // в планах найти НОК ка�
 fun minDivisor(n: Int): Int {
     var minimum = 0
     return if (n > 2) {
-        for (i in 2..n) {
+        for (i in 2..sqrt(n.toDouble()).toInt()) {
             if (n % i == 0) {
                 minimum = i
                 break
-            }
+            } else minimum = n
         }
         minimum
     } else n
@@ -142,7 +142,15 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var maximum = 1
+    return if (n > 2) {
+        for (i in 2..n / 2) {
+            if (n % i == 0) maximum = i else maximum
+        }
+        maximum
+    } else 2
+}
 
 /**
  * Простая
