@@ -87,11 +87,12 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val s = (v1 * t1 + v2 * t2 + v3 * t3) // эта задача у меня не получилась, не знаю как ее решать с точки зрения физики
+    val s =
+        (v1 * t1 + v2 * t2 + v3 * t3) / 2
     return when {
-        (s / 2 > (t1 * v1 + t2 * v2)) -> (s / 2 - (t1 * v1 + t2 * v2)) / v3 + t1 + t2
-        (s / 2 > (t1 * v1)) -> ((s / 2 - (t1 * v1))) / v2 + t1
-        else -> s / v1
+        s <= v1 * t1 -> s / v1
+        s <= v1 * t1 + v2 * t2 -> (s - v1 * t1) / v2 + t1
+        else -> (s - v1 * t1 - v2 * t2) / v3 + t1 + t2
     }
 }
 

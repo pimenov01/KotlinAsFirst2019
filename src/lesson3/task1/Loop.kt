@@ -6,6 +6,7 @@ import lesson1.task1.sqr
 import java.lang.Math.pow
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -74,11 +75,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var n = n
-    if (n == 0) count++ else
-        do {
-            count++
-            n /= 10
-        } while (n != 0)
+    do {
+        count++
+        n /= 10
+    } while (n != 0)
     return count
 }
 
@@ -128,31 +128,40 @@ fun lcm(m: Int, n: Int): Int = TODO() // в планах найти НОК ка�
  */
 fun minDivisor(n: Int): Int {
     var minimum = 0
-    return if (n > 2) {
-        for (i in 2..sqrt(n.toDouble()).toInt()) {
-            if (n % i == 0) {
-                minimum = i
-                break
-            } else minimum = n
+    return when (n > 1) {
+        n == 3 -> 3
+        n == 2 -> 2
+        else -> {
+            for (i in 2..sqrt(n.toDouble()).toInt()) {
+                if (n % i == 0) {
+                    minimum = i
+                    return minimum
+                } else minimum = n
+            }
+            return minimum
+
         }
-        minimum
-    } else n
+    }
 }
 
+// {
+//    var minimum = 0
+//    return if (n > 2) {
+//        for (i in 2..sqrt(n.toDouble()).toInt()) {
+//            if (n % i == 0) {
+//                minimum = i
+//                break
+//            } else minimum = n
+//        }
+//        minimum
+//    } else n
+//}
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var maximum = 1
-    return if (n > 2) {
-        for (i in 2..n / 2) {
-            if (n % i == 0) maximum = i else maximum
-        }
-        maximum
-    } else 1
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -180,7 +189,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (i in sqrt(m.toDouble()).toInt()..sqrt(n.toDouble()).toInt())
-        if (m <= sqr(i) && sqr(i) <= n) return true
+        if (sqr(i) in m..n) return true
     return false
 }
 
@@ -246,9 +255,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int { // n / pow(10.0, (n-1).toDouble())
-    var digitCount = digitNumber(n)
-    for (i in 1..digitCount)
-        n % 10 * pow(10.0, (n - 1).toDouble())
+    val digitCount = digitNumber(n)
+    var sum = 0
+    var n = n
+    var p = 0
+    for (i in 1..digitCount) {
+        p = (n % 10 * 10.0.pow(((digitCount - i).toDouble()))).toInt()
+        sum += p
+        n /= 10
+    }
+    return sum
 }
 
 
