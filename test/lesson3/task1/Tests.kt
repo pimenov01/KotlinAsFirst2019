@@ -89,6 +89,14 @@ class Tests {
     }
 
     @Test
+    fun gcd() {
+        assertEquals(5, lcm(800, 255))
+        assertEquals(1, lcm(19, 281))
+        assertEquals(4, lcm(1548, 260))
+        assertEquals(300, lcm(600, 300))
+    }
+
+    @Test
     @Tag("Easy")
     fun lcm() {
         assertEquals(13, lcm(13, 13))
@@ -115,6 +123,7 @@ class Tests {
         assertEquals(1073676287, minDivisor(1073676287))
         assertEquals(Int.MAX_VALUE, minDivisor(Int.MAX_VALUE))
     }
+
 
     @Test
     @Tag("Easy")

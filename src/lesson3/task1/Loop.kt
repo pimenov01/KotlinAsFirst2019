@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.pow
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -179,7 +180,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (i in sqrt(m.toDouble()).toInt()..sqrt(n.toDouble()).toInt())
-        return sqr(i) in m..n
+        if (m <= sqr(i) && sqr(i) <= n) return true
     return false
 }
 
@@ -199,7 +200,21 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var count = 0
+    var x = x
+    if (x == 1) return 0
+    do {
+        if (x % 2 == 0) {
+            x /= 2
+            count++
+        } else {
+            x = 3 * x + 1
+            count++
+        }
+    } while (x != 1)
+    return count
+}
 
 /**
  * Средняя
@@ -230,7 +245,12 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int { // n / pow(10.0, (n-1).toDouble())
+    var digitCount = digitNumber(n)
+    for (i in 1..digitCount)
+        n % 10 * pow(10.0, (n - 1).toDouble())
+}
+
 
 /**
  * Средняя
