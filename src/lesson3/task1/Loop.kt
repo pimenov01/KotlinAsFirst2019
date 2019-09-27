@@ -127,35 +127,12 @@ fun lcm(m: Int, n: Int): Int = TODO() // в планах найти НОК ка�
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var minimum = 0
-    return when (n > 1) {
-        n == 3 -> 3
-        n == 2 -> 2
-        else -> {
-            for (i in 2..sqrt(n.toDouble()).toInt()) {
-                if (n % i == 0) {
-                    minimum = i
-                    return minimum
-                } else minimum = n
-            }
-            return minimum
-
-        }
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0) return i
     }
+    return n
 }
 
-// {
-//    var minimum = 0
-//    return if (n > 2) {
-//        for (i in 2..sqrt(n.toDouble()).toInt()) {
-//            if (n % i == 0) {
-//                minimum = i
-//                break
-//            } else minimum = n
-//        }
-//        minimum
-//    } else n
-//}
 /**
  * Простая
  *
@@ -212,16 +189,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun collatzSteps(x: Int): Int {
     var count = 0
     var x = x
-    if (x == 1) return 0
-    do {
-        if (x % 2 == 0) {
+    while (x != 1) {
+        count++
+        if (x % 2 == 0)
             x /= 2
-            count++
-        } else {
-            x = 3 * x + 1
-            count++
-        }
-    } while (x != 1)
+        else x = 3 * x + 1
+    }
     return count
 }
 
