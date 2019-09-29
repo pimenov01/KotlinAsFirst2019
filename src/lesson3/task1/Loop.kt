@@ -110,16 +110,18 @@ fun fib(n: Int): Int { //if (n <= 2) 1 else fib(n - 1) + fib(n - 2)
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun gcd(m: Int, n: Int): Int {
-    val k = max(m, n) / min(m, n)
     var r = 0
-    while (max(m, n) % min(m, n) != 0) {
-        r = max(m, n) - k * min(m, n)
-        gcd(r, min(m, n))
+    var m = m
+    var n = n
+    while ((m != 0) && (n != 0)) {
+        if (m >= n) m %= n
+        else n %= m
+        r = m + n
     }
-    return min(n, m)
+    return r
 }
 
-fun lcm(m: Int, n: Int): Int = TODO() // в планах найти НОК как m * n / НОД (m, n)
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -147,15 +149,7 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var m = m
-    var n = n
-    while (m != n) {
-        if (m > n) m -= n else n -= m
-
-    }
-    return n <= 1
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -207,7 +201,13 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var sum = 0
+    for (i in 0..15) {
+        sum = (((sum + (-1.0).pow(i)).toInt() * (x.pow((2 * i + 1).toDouble()))).toInt() / factorial(2 * i + 1)).toInt()
+    }
+    return sum.toDouble()
+}
 
 /**
  * Средняя
@@ -240,7 +240,6 @@ fun revert(n: Int): Int { // n / pow(10.0, (n-1).toDouble())
     return sum
 }
 
-
 /**
  * Средняя
  *
@@ -250,7 +249,46 @@ fun revert(n: Int): Int { // n / pow(10.0, (n-1).toDouble())
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+
+fun isPalindrome(n: Int): Boolean {
+    var n = n
+    while (n > 0) {
+        if (n % 10 == (n / 10.0.pow(((digitNumber(n) - 1).toDouble()))).toInt()) {
+            n = ((n.toDouble() % 10.0.pow(((digitNumber(n) - 1).toDouble())) / 10.0).toInt())
+        } else return false
+    }
+    return true
+}
+
+fun notworkingPalindrome(n: Int): Boolean { // тут я делаю все тоже самое, но  изначально запоминаю переменную digitCount чтобы не
+    //вызывать постояннно функцию digitNumber, руководствуясь тем что легче один раз запомнить, чем постяонно смотреть чему она равна
+    //Следовательно я увеличиваю скорость работы функции
+    val digitCount = digitNumber(n)
+    var n = n
+    while (n > 0) {
+        if (n % 10 == (n / 10.0.pow(((digitCount - 1).toDouble()))).toInt()) { // если первая цифра равна последней, то
+            n = ((n.toDouble() % 10.0.pow(((digitCount - 1).toDouble())) / 10.0).toInt()) // то убери первую и последнюю цифры в числе
+            digitCount == digitNumber(n) // тут я прямо в цикле говорю что давай-ка переменная digitCount будет равна
+            // переменной digitNumber от числа n, которое я уже уменьшил
+            // но она остается равной от первоначального числа n и функция не работает
+            // не понимаю в чем ошибка
+        } else return false
+    }
+    return true
+}
+
+
+fun digits(n: Int): Int { // убираю первую и последнюю цифру числа
+    val digitCount = digitNumber(n)
+    var n = n
+    n = ((n.toDouble() % 10.0.pow(((digitCount - 1).toDouble())) / 10.0).toInt())
+    return n
+}
+
+fun compare(n: Int): Boolean { // сравниваю первую и последнюю цифры числа
+    val digitCount = digitNumber(n)
+    return n % 10 == (n / 10.0.pow(((digitCount - 1).toDouble()))).toInt()
+}
 
 /**
  * Средняя
