@@ -201,13 +201,7 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double {
-    var sum = 0
-    for (i in 0..15) {
-        sum = (((sum + (-1.0).pow(i)).toInt() * (x.pow((2 * i + 1).toDouble()))).toInt() / factorial(2 * i + 1)).toInt()
-    }
-    return sum.toDouble()
-}
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя
@@ -250,33 +244,7 @@ fun revert(n: Int): Int { // n / pow(10.0, (n-1).toDouble())
  * Использовать операции со строками в этой задаче запрещается.
  */
 
-fun isPalindrome(n: Int): Boolean {
-    var n = n
-    while (n > 0) {
-        if (n % 10 == (n / 10.0.pow(((digitNumber(n) - 1).toDouble()))).toInt()) {
-            n = ((n.toDouble() % 10.0.pow(((digitNumber(n) - 1).toDouble())) / 10.0).toInt())
-        } else return false
-    }
-    return true
-}
-
-fun notworkingPalindrome(n: Int): Boolean { // тут я делаю все тоже самое, но  изначально запоминаю переменную digitCount чтобы не
-    //вызывать постояннно функцию digitNumber, руководствуясь тем что легче один раз запомнить, чем постяонно смотреть чему она равна
-    //Следовательно я увеличиваю скорость работы функции
-    val digitCount = digitNumber(n)
-    var n = n
-    while (n > 0) {
-        if (n % 10 == (n / 10.0.pow(((digitCount - 1).toDouble()))).toInt()) { // если первая цифра равна последней, то
-            n = ((n.toDouble() % 10.0.pow(((digitCount - 1).toDouble())) / 10.0).toInt()) // то убери первую и последнюю цифры в числе
-            digitCount == digitNumber(n) // тут я прямо в цикле говорю что давай-ка переменная digitCount будет равна
-            // переменной digitNumber от числа n, которое я уже уменьшил
-            // но она остается равной от первоначального числа n и функция не работает
-            // не понимаю в чем ошибка
-        } else return false
-    }
-    return true
-}
-
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 fun digits(n: Int): Int { // убираю первую и последнюю цифру числа
     val digitCount = digitNumber(n)

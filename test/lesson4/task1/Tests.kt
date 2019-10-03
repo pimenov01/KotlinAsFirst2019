@@ -163,8 +163,11 @@ class Tests {
     @Tag("Normal")
     fun factorize() {
         assertEquals(listOf(2), factorize(2))
+        assertEquals(listOf(2, 2), factorize(4))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
+        //assertEquals(listOf(), factorize(13421)) // как попросить у котлина пустой лист? Если я введу простое число,
+        // то должен вывестить пустой лист, но просить его я не умею(
     }
 
     @Test
