@@ -4,9 +4,10 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
-import java.lang.Math.pow
+import lesson3.task1.isPrime
 import kotlin.math.pow
 import kotlin.math.sqrt
+
 
 /**
  * Пример
@@ -204,11 +205,11 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n = n
-    if (n < 4) {
+    if (isPrime(n) || n < 4) {
         result.add(n)
         return result
     }
-    for (i in 2 until n)
+    for (i in 2..n / 2)
         while (n % i == 0) {
             n /= i
             result.add(i)
@@ -223,7 +224,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -232,7 +233,17 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+
+fun convert(n: Int, base: Int): List<Int> {
+    var b = n / base
+    val result = mutableListOf<Int>()
+    result.add(n % base)
+    while (b != 0) {
+        result.add(b % base)
+        b /= base
+    }
+    return result.asReversed()
+}
 
 /**
  * Сложная
