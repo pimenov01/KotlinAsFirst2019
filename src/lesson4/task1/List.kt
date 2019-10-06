@@ -245,6 +245,63 @@ fun convert(n: Int, base: Int): List<Int> {
     return result.asReversed()
 }
 
+fun numberToLetter(n1: Int): Char {
+    val a = 'a'
+    val b = 'b'
+    val c = 'c'
+    val d = 'd'
+    val e = 'e'
+    val f = 'f'
+    val g = 'g'
+    val h = 'h'
+    val i = 'i'
+    val j = 'j'
+    val k = 'k'
+    val l = 'l'
+    val m = 'm'
+    val n = 'n'
+    val o = 'o'
+    val p = 'p'
+    val q = 'q'
+    val r = 'r'
+    val s = 's'
+    val t = 't'
+    val u = 'u'
+    val v = 'v'
+    val w = 'w'
+    val x = 'x'
+    val y = 'y'
+    val z = 'z'
+    return when (n1) {
+        10 -> a
+        11 -> b
+        12 -> c
+        13 -> d
+        14 -> e
+        15 -> f
+        16 -> g
+        17 -> h
+        18 -> i
+        19 -> j
+        20 -> k
+        21 -> l
+        22 -> m
+        23 -> n
+        24 -> o
+        25 -> p
+        26 -> q
+        27 -> r
+        28 -> s
+        29 -> t
+        30 -> u
+        31 -> v
+        32 -> w
+        33 -> x
+        34 -> y
+        else -> z
+    }
+}
+
 /**
  * Сложная
  *
@@ -256,7 +313,15 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val result: MutableList<Int> = convert(n, base) as MutableList<Int>
+    for (i in 0 until result.size) {
+        if (result[i] > 9) {
+            result[i] = numberToLetter(result[i]).toInt()
+        }
+    }
+    return result.joinToString().filter { it != ' ' }.filter { it != ',' }
+}
 
 /**
  * Средняя
