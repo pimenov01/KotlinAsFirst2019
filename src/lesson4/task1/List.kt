@@ -215,7 +215,7 @@ fun factorize(n: Int): List<Int> {
             n /= i
             result.add(i)
         }
-    return result.sorted()
+    return result
 }
 
 /**
@@ -303,6 +303,8 @@ fun numberToLetter(n1: Int): Char {
     }
 }
 
+fun abz(n: Int): Char = (n + 87).toChar()
+
 /**
  * Сложная
  *
@@ -318,8 +320,7 @@ fun convertToString(n: Int, base: Int): String {
     val result: MutableList<Int> = convert(n, base) as MutableList<Int>
     for (i in 0 until result.size) {
         if (result[i] > 9) {
-            result[i] = numberToLetter(result[i]).toInt()
-
+            result[i] = abz(result[i]).toInt()
         }
     }
     return result.joinToString().filter { it != ' ' }.filter { it != ',' }

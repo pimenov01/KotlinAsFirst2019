@@ -202,6 +202,16 @@ class Tests {
     }
 
     @Test
+    fun abz() {
+        assertEquals('c', abz(12))
+        assertEquals('f', abz(15))
+        assertEquals('w', abz(32))
+        assertEquals('z', abz(35))
+        assertEquals('a', abz(10))
+        assertEquals('b', abz(11))
+    }
+
+    @Test
     @Tag("Hard")
     fun convertToString() {
         assertEquals("1", convertToString(1, 2))
