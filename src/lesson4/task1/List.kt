@@ -305,6 +305,18 @@ fun numberToLetter(n1: Int): Char {
 
 fun abz(n: Int): Char = (n + 87).toChar()
 
+fun donkey(list: MutableList<Int>): MutableList<Int> {
+    var c: Char
+    for (i in 0 until list.size) {
+        if (list[i] > 9) {
+            c = (list[i] + 87).toChar()
+            list.removeAt(i)
+            list.add(i, c.toInt())
+        }
+    }
+    return list
+}
+
 /**
  * Сложная
  *
