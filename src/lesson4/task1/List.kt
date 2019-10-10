@@ -321,24 +321,23 @@ fun miniHelper(n: Int): String {
 }
 
 fun roman(n: Int): String {
-    var a = listOf<Int>(1)
     if (n >= 400) {
-        if (n >= 900) {
-            if (n >= 1000) return 'M' + roman(n - 1000)
-            else return "CM" + roman(n - 900)
+        return if (n >= 900) {
+            if (n >= 1000) 'M' + roman(n - 1000)
+            else "CM" + roman(n - 900)
         } else {
-            if (n >= 500) return 'D' + roman(n - 500)
-            else return "CD" + roman(n - 400)
+            if (n >= 500) 'D' + roman(n - 500)
+            else "CD" + roman(n - 400)
         }
     } else {
         if (n >= 90) {
-            if (n >= 100) return 'C' + roman(n - 100)
-            else return "XC" + roman(n - 90)
+            return if (n >= 100) 'C' + roman(n - 100)
+            else "XC" + roman(n - 90)
         } else {
-            if (n <= 10) return a.toString()
+            if (n <= 10) return miniHelper(n)
             if (n >= 40) {
-                if (n >= 50) return 'L' + roman(n - 50)
-                else return "XL" + roman(n - 40)
+                return if (n >= 50) 'L' + roman(n - 50)
+                else "XL" + roman(n - 40)
             }
             return 'X' + roman(n - 10)
         }
