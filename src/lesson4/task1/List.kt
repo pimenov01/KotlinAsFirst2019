@@ -247,7 +247,7 @@ fun convert(n: Int, base: Int): List<Int> {
 }
 
 
-fun abz(n: Int): Char =
+fun numberToSymbol(n: Int): Char =
     if (n > 9) 'a' + n - 10
     else '0' + n
 
@@ -263,7 +263,8 @@ fun abz(n: Int): Char =
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = convert(n, base).map { abz(it) }.joinToString(separator = "")
+fun convertToString(n: Int, base: Int): String =
+    convert(n, base).map { numberToSymbol(it) }.joinToString(separator = "")
 
 /**
  * Средняя
@@ -304,7 +305,45 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun miniHelper(n: Int): String {
+    return when (n) {
+        1 -> "I"
+        2 -> "II"
+        3 -> "III"
+        4 -> "IV"
+        5 -> "I"
+        6 -> "VI"
+        7 -> "VII"
+        8 -> "VIII"
+        else -> "IX"
+    }
+
+}
+
+fun roman(n: Int): String {
+    var a = listOf<Int>(1)
+    if (n >= 400) {
+        if (n >= 900) {
+            if (n >= 1000) return 'M' + roman(n - 1000)
+            else return "CM" + roman(n - 900)
+        } else {
+            if (n >= 500) return 'D' + roman(n - 500)
+            else return "CD" + roman(n - 400)
+        }
+    } else {
+        if (n >= 90) {
+            if (n >= 100) return 'C' + roman(n - 100)
+            else return "XC" + roman(n - 90)
+        } else {
+            if (n <= 10) return a.toString()
+            if (n >= 40) {
+                if (n >= 50) return 'L' + roman(n - 50)
+                else return "XL" + roman(n - 40)
+            }
+            return 'X' + roman(n - 10)
+        }
+    }
+}
 
 /**
  * Очень сложная
