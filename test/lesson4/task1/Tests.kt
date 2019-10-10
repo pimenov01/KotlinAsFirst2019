@@ -191,15 +191,6 @@ class Tests {
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
     }
 
-    @Test
-    fun numberToLetter() {
-        assertEquals('c', numberToLetter(12))
-        assertEquals('f', numberToLetter(15))
-        assertEquals('w', numberToLetter(32))
-        assertEquals('z', numberToLetter(35))
-        assertEquals('a', numberToLetter(10))
-        assertEquals('b', numberToLetter(11))
-    }
 
     @Test
     fun abz() {
