@@ -167,8 +167,6 @@ class Tests {
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
         assertEquals(listOf(13421), factorize(13421))
-        // как попросить у котлина пустой лист? я хочу вывести пустой лист
-        // но просить его я не умею(
     }
 
     @Test
