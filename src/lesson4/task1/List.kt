@@ -320,29 +320,7 @@ fun miniHelper(n: Int): String {
 
 }
 
-fun roman(n: Int): String {
-    if (n >= 400) {
-        return if (n >= 900) {
-            if (n >= 1000) 'M' + roman(n - 1000)
-            else "CM" + roman(n - 900)
-        } else {
-            if (n >= 500) 'D' + roman(n - 500)
-            else "CD" + roman(n - 400)
-        }
-    } else {
-        if (n >= 90) {
-            return if (n >= 100) 'C' + roman(n - 100)
-            else "XC" + roman(n - 90)
-        } else {
-            if (n <= 10) return miniHelper(n)
-            if (n >= 40) {
-                return if (n >= 50) 'L' + roman(n - 50)
-                else "XL" + roman(n - 40)
-            }
-            return 'X' + roman(n - 10)
-        }
-    }
-}
+fun roman(n: Int): String =TODO()
 
 /**
  * Очень сложная
