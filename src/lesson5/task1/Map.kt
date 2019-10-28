@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.lang.Integer.max
+
 /**
  * Пример
  *
@@ -146,11 +148,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val res: Any
-    res = a.toSet().intersect(b.toSet()).toList()
-    return res
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b.toSet()).toList()
 
 /**
  * Средняя
@@ -169,7 +167,15 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val result = mapA.toMutableMap()
+    for ((first, second) in mapB) {
+        if ((first in result) && (result[first] != second)) {
+            result[first] += ", $second"
+        } else result += first to second
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -181,7 +187,18 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val result = mutableMapOf<String, Double>()
+    for (i in stockPrices.indices) {
+        if (i != stockPrices.size - 1) {
+            if (stockPrices[i].first == stockPrices[i + 1].first) {
+                val k = (stockPrices[i].second + stockPrices[i + 1].second) / 2
+                result += stockPrices[i].first to k
+            } else if (stockPrices[i].first !in result) result += stockPrices[i].first to stockPrices[i].second
+        } else if (stockPrices[i].first !in result) result += stockPrices[i].first to stockPrices[i].second
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -198,7 +215,17 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var result: String? = null
+    var price = Double.MAX_VALUE
+    for ((title, info) in stuff) {
+        if ((info.first == kind) && info.second < price) {
+            result = title
+            price = info.second
+        }
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -209,7 +236,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =
+    word.all { it.toUpperCase() in chars || it.toLowerCase() in chars }
 
 /**
  * Средняя
@@ -223,7 +251,22 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val result = mutableMapOf<String, Int>()
+    var letter = ""
+    for (i in 0..list.size) {
+        for (k in i + 1 until list.size) {
+            if (list[i] == list[k]) {
+                var count = 1
+                count++
+                letter = list[i]
+                result[letter] = count
+            }
+        }
+    }
+    return result
+}
+
 
 /**
  * Средняя

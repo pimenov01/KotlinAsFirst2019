@@ -5,6 +5,8 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.isPrime
+import lesson3.task1.maxDivisor
+import lesson3.task1.minDivisor
 import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -209,11 +211,8 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n = n
-    if (isPrime(n) || n < 4) {
-        result.add(n)
-        return result
-    }
-    for (i in 2..n / 2)
+    if (isPrime(n) || n < 4) return listOf(n)
+    for (i in minDivisor(n)..maxDivisor(n))
         while (n % i == 0) {
             n /= i
             result.add(i)
