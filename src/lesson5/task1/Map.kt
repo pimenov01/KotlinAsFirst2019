@@ -187,18 +187,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val result = mutableMapOf<String, Double>()
-    for (i in stockPrices.indices) {
-        if (i != stockPrices.size - 1) {
-            if (stockPrices[i].first == stockPrices[i + 1].first) {
-                val k = (stockPrices[i].second + stockPrices[i + 1].second) / 2
-                result += stockPrices[i].first to k
-            } else if (stockPrices[i].first !in result) result += stockPrices[i].first to stockPrices[i].second
-        } else if (stockPrices[i].first !in result) result += stockPrices[i].first to stockPrices[i].second
-    }
-    return result
-}
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
 
 /**
  * Средняя
@@ -217,7 +206,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var result: String? = null
-    var price = Double.MAX_VALUE
+    var price = Double.POSITIVE_INFINITY
     for ((title, info) in stuff) {
         if ((info.first == kind) && info.second < price) {
             result = title
@@ -253,18 +242,10 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
-    var letter = ""
-    for (i in 0..list.size) {
-        for (k in i + 1 until list.size) {
-            if (list[i] == list[k]) {
-                var count = 1
-                count++
-                letter = list[i]
-                result[letter] = count
-            }
-        }
+    for (i in list) {
+        result[i] = result.getOrDefault(i, 0) + 1
     }
-    return result
+    return result.filterValues { it > 1 }
 }
 
 
@@ -364,6 +345,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    var set = setOf<String>()
     val map = mutableMapOf<Int, Pair<Set<String>, Int>>()
     map[0] = Pair(setOf(), 0)
     for (i in 1..capacity) {
@@ -371,14 +353,18 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         var maxMoney = map[i - 1]!!.second
         for ((x, y) in treasures) {
             if (i - y.first >= 0) {
-                val money = y.second + map[i - y.first]!!.second
-                if (money > maxMoney) {
-                    maxMoney = money
-                    maxSet = map[i - y.first]!!.first + x
+                if (x !in map[i - y.first]!!.first) {
+                    val money = y.second + map[i - y.first]!!.second
+                    if (money > maxMoney) {
+                        maxMoney = money
+                        maxSet = map[i - y.first]!!.first + x
+                    }
                 }
             }
         }
         map[i] = Pair(maxSet, maxMoney)
+        set = maxSet
     }
-    return map[capacity]!!.first
+    return set
 }
+//map[capacity]!!.first

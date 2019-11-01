@@ -193,14 +193,14 @@ class Tests {
     @Test
     @Tag("Normal")
     fun averageStockPrice() {
-        assertEquals(
+        /*assertEquals(
             mapOf<String, Double>(),
             averageStockPrice(listOf())
-        )
-        assertEquals(
+        )*/
+        /*assertEquals(
             mapOf("MSFT" to 100.0, "NFLX" to 40.0),
             averageStockPrice(listOf("MSFT" to 100.0, "NFLX" to 40.0))
-        )
+        )*/
         assertEquals(
             mapOf("MSFT" to 150.0, "NFLX" to 40.0),
             averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
@@ -328,7 +328,13 @@ class Tests {
                 450
             )
         )
+        assertEquals(
+            setOf("Шлем", "Меч"),
+            bagPacking(
+                mapOf("Меч" to (1 to 1), "Шлем" to (1 to 1)),
+                2
+            )
+        )
     }
 
-    // TODO: map task tests
 }
