@@ -322,7 +322,25 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var result = Pair(-1, -1)
+    for (i in list.indices - 1) {
+        for (j in i + 1 until list.size) {
+            if (list[i] + list[j] == number) {
+                result = Pair(i, j)
+                return result
+            }
+        }
+    }
+    return result
+    /*val map = mutableMapOf<Int, Int>()
+    if (list.isEmpty()) return Pair(-1, -1)
+    for (i in 0..list.size) {
+        map[number - list[i]] = i
+        if (map[list[i]] != null) return Pair(map[list[i]]!!, i)
+    }
+    return Pair(-1, -1)*/
+}
 
 /**
  * Очень сложная
@@ -345,4 +363,22 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val map = mutableMapOf<Int, Pair<Set<String>, Int>>()
+    map[0] = Pair(setOf(), 0)
+    for (i in 1..capacity) {
+        var maxSet = map[i - 1]!!.first
+        var maxMoney = map[i - 1]!!.second
+        for ((x, y) in treasures) {
+            if (i - y.first >= 0) {
+                val money = y.second + map[i - y.first]!!.second
+                if (money > maxMoney) {
+                    maxMoney = money
+                    maxSet = map[i - y.first]!!.first + x
+                }
+            }
+        }
+        map[i] = Pair(maxSet, maxMoney)
+    }
+    return map[capacity]!!.first
+}
