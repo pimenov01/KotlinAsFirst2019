@@ -69,7 +69,40 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val fail = ""
+    if (!(str.matches(Regex("""\d+\s[а-я]+\s\d+""")))) return fail
+    val map = mapOf(
+        "января" to "01",
+        "февраля" to "02",
+        "марта" to "03",
+        "апреля" to "04",
+        "мая" to "05",
+        "июня" to "06",
+        "июля" to "07",
+        "августа" to "08",
+        "сентября" to "09",
+        "октября" to "10",
+        "ноября" to "11",
+        "декабря" to "12"
+    )
+    val a = str.split(" ").toMutableList()
+    if (a.size != 3 || a[0].toInt() !in 1..31) return fail
+    var day = a[0].toInt()
+    var month = a[1]
+    val year = a[2].toInt()
+    if (month == "февраля") {
+        day += if (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) 0 else 1
+    }
+    if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28) return fail
+    if (month in map) {
+        val y = map[month]
+        if (y != null) {
+            month = y
+        }
+    } else return fail
+    return "${twoDigitStr(day)}.$month.$year"
+}
 
 /**
  * Средняя
@@ -81,7 +114,9 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    return ""
+}
 
 /**
  * Средняя
