@@ -88,12 +88,9 @@ fun dateStrToDigit(str: String): String {
     )
     val a = str.split(" ").toMutableList()
     if (a.size != 3 || a[0].toInt() !in 1..31) return fail
-    var day = a[0].toInt()
+    val day = a[0].toInt()
     var month = a[1]
     val year = a[2].toInt()
-    if (month == "февраля") {
-        day += if (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) 0 else 1
-    }
     if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28) return fail
     if (month in map) {
         val y = map[month]
@@ -115,7 +112,29 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    return ""
+    val fail = ""
+    if (!(digital.matches(Regex("""\d{1,2}\.\d{2}\.\d+""")))) return fail
+    val a = digital.split(".").toMutableList()
+    val day = a[0].toInt()
+    var month = a[1]
+    val year = a[2].toInt()
+    if (day > 31 || ((year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && month == "02" && day > 28)) return fail
+    month = when (month) {
+        "01" -> "января"
+        "02" -> "февраля"
+        "03" -> "марта"
+        "04" -> "апреля"
+        "05" -> "мая"
+        "06" -> "июня"
+        "07" -> "июля"
+        "08" -> "августа"
+        "09" -> "сентября"
+        "10" -> "октября"
+        "11" -> "ноября"
+        "12" -> "декабря"
+        else -> return fail
+    }
+    return "$day $month $year"
 }
 
 /**
