@@ -214,15 +214,19 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (jumps.isEmpty()) return -1
-    val possible = setOf('+', '%', ' ', '-')
-    println(jumps.toSet() - possible - setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
-    val c = jumps.toSet() - possible - setOf('1', '2', '3', '4', '5', '6', '7', '8', '9')
-    if (c.isNotEmpty()) return -1
-    jumps.filter { it !in "+&-" }
-    println(jumps.filter { it !in "+&-" })
-    return 1
+    var count = -1
+    if (jumps.isEmpty() || !(jumps.matches(Regex("""(\d*\+* *%*-*)*""")))) return -1
+    println(jumps.filter { it !in "%-+" })
+    val attempts = jumps.filter { it !in "%-" }.split(" ")
+    println(attempts.size)
+    for (i in attempts.indices) {
+        if ((attempts[i] != "+" || attempts[i] != "") && attempts[i].toInt() > count) {
+            count = attempts[i].toInt()
+        }
+    }
+    return count
 }
+
 
 /**
  * Сложная
