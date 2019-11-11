@@ -213,7 +213,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
+fun bestHighJump(jumps: String): Int { //пока не рабочая, не так понял условие
     var count = -1
     if (jumps.isEmpty() || !(jumps.matches(Regex("""(\d*\+* *%*-*)*""")))) return -1
     println(jumps.filter { it !in "%-+" })
