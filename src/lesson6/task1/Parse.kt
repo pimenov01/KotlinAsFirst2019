@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+
 /**
  * Пример
  *
@@ -151,7 +152,15 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val possible = setOf('+', '(', ')', ' ', '-')
+    //println(phone.filter { it !in "-, ," })
+    println((phone.toSet() - possible).joinToString(""))
+    val c = (phone.toSet() - possible).joinToString("")
+    if (!c.matches(Regex("""\d*""""))) return ""
+    println(phone.filter { it !in "-, ," })
+    return "11"
+}
 
 /**
  * Средняя
@@ -163,7 +172,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    var answer = 0
+    if (!jumps.matches(Regex("""(\d*[% -]*)*"""))) return -1
+    val c = jumps.filter { it !in "-%" }.split(" ").toMutableList()
+    for (i in c.indices) {
+        if (c[i] != "" && c[i].toInt() > answer) {
+            answer = c[i].toInt()
+        }
+    }
+    if (answer == 0) return -1
+    return answer
+}
 
 /**
  * Сложная
