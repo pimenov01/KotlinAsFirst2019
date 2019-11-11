@@ -170,9 +170,10 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().int
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val result = mapA.toMutableMap()
     for ((first, second) in mapB) {
-        if ((first in result) && (result[first] != second)) {
+        if ((first in result) && (result[first] != second))
             result[first] += ", $second"
-        } else result += first to second
+        else
+            result += first to second
     }
     return result
 }
@@ -314,13 +315,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         }
     }
     return result
-    /*val map = mutableMapOf<Int, Int>()
-    if (list.isEmpty()) return Pair(-1, -1)
-    for (i in 0..list.size) {
-        map[number - list[i]] = i
-        if (map[list[i]] != null) return Pair(map[list[i]]!!, i)
-    }
-    return Pair(-1, -1)*/
+
 }
 
 /**
@@ -367,4 +362,3 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     return set
 }
-//map[capacity]!!.first
