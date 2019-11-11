@@ -153,13 +153,29 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
+    var count = 0
+    var i = -1
     val possible = setOf('+', '(', ')', ' ', '-')
-    //println(phone.filter { it !in "-, ," })
-    println((phone.toSet() - possible).joinToString(""))
-    val c = (phone.toSet() - possible).joinToString("")
-    if (!c.matches(Regex("""\d*""""))) return ""
-    println(phone.filter { it !in "-, ," })
-    return "11"
+    val c = (phone.toSet() - possible - setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
+    if (c.isNotEmpty()) return ""
+    val k = phone.filter { it !in "-, ," }
+    for (j in k.indices) {
+        if (k[j] == '(') {
+            i = j
+            break
+        }
+    }
+    if (i >= 0) {
+        do {
+            i++
+            if (k[i].toInt() >= 0 && k[i] != ')') {
+                count -= -1
+                break
+            }
+        } while (k[i] != ')')
+    }
+    if (i >= 0 && count == 0) return ""
+    return k.filter { it !in "(, )" }
 }
 
 /**
@@ -197,7 +213,16 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    val possible = setOf('+', '%', ' ', '-')
+    println(jumps.toSet() - possible - setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
+    val c = jumps.toSet() - possible - setOf('1', '2', '3', '4', '5', '6', '7', '8', '9')
+    if (c.isNotEmpty()) return -1
+    jumps.filter { it !in "+&-" }
+    println(jumps.filter { it !in "+&-" })
+    return 1
+}
 
 /**
  * Сложная
