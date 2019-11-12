@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import kotlin.math.exp
+
 
 /**
  * Пример
@@ -237,7 +239,19 @@ fun bestHighJump(jumps: String): Int { //пока не рабочая, не та
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    require(expression.matches(Regex("""(\d+ *(\+|\-) *)*\d+""")))
+    val rightExpression = expression.split(" ")
+    var answer = rightExpression[0].toInt()
+    if (rightExpression.size == 1) return answer
+    for (i in 2..rightExpression.size step 2) {
+        if (rightExpression[i - 1] == "+")
+            answer += rightExpression[i].toInt()
+        else
+            answer -= rightExpression[i].toInt()
+    }
+    return answer
+}
 
 /**
  * Сложная
@@ -248,7 +262,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val expression = str.split(" ")
+    var answer = 0
+    for (i in 0 until expression.size - 1) {
+        if (expression[i].toLowerCase() == expression[i + 1].toLowerCase())
+            return answer
+        else
+            answer += expression[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -261,7 +285,25 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    if (!(description.matches(Regex("""([А-я]+ \d+\.*\d*;* *)*""")))) return ""
+    val c = description.split(";")
+    val name = c[0].split(" ")[0]
+    val maxPrice = c[0].split(" ")[1]
+    val v = c.toString().replace("  ", "")
+    println(c)
+    println(v)
+    println(c.size)
+    println(name)
+    println(maxPrice)
+    for (i in 1 until c.size) {
+        val currentPrice = c[i].split(" ")[1]
+        println(currentPrice)
+    }
+    return "1"
+}
+
 
 /**
  * Сложная
