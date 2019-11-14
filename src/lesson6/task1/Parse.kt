@@ -2,8 +2,6 @@
 
 package lesson6.task1
 
-import kotlin.math.exp
-
 
 /**
  * Пример
@@ -285,25 +283,29 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String {
+fun mostExpensive(description: String): String { //пофиксить русскую раскладку
     if (description.isEmpty()) return ""
     if (!(description.matches(Regex("""([А-я]+ \d+\.*\d*;* *)*""")))) return ""
+    if (description.split(" ").size == 2) {
+        val z = description.split(" ")
+        return z[0]
+    }
     val c = description.split(";")
     val v = c.toString().replace("  ", "")
-    val newc = v.split(",")
-    var name = newc[0].split(" ")[0]
+    val newC = v.split(",")
+    var name = newC[0].split(" ")[0]
     if (name.contains("[")) {
         name = name.replace("[", "")
     }
-    var maxPrice = newc[0].split(" ")[1]
-    for (i in 1 until newc.size - 1) {
-        var currentPrice = newc[i].split(" ")[1]
+    var maxPrice = newC[0].split(" ")[1]
+    for (i in 1 until newC.size - 1) {
+        var currentPrice = newC[i].split(" ")[1]
         if (currentPrice.contains("]")) {
             currentPrice = currentPrice.replace("]", "")
         }
         if (currentPrice.toDouble() > maxPrice.toDouble()) {
             maxPrice = currentPrice
-            name = newc[i].split(" ")[0]
+            name = newC[i].split(" ")[0]
         }
     }
     return name
