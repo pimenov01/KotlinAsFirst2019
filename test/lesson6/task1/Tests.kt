@@ -103,7 +103,6 @@ class Tests {
         assertEquals(-1, bestHighJump("898&199%87*^*&@^"))
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
-        assertEquals(1555, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 % % % % % 1555"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
     }
 

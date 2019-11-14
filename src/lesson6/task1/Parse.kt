@@ -113,7 +113,10 @@ fun dateStrToDigit(str: String): String {
  *
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
- */
+ *//*for (i in 1 until c.size) {
+        val currentPrice = c[i].split(" ")[1]
+        println(currentPrice)
+    }*/
 fun dateDigitToStr(digital: String): String {
     val fail = ""
     if (!(digital.matches(Regex("""\d{1,2}\.\d{2}\.\d+""")))) return fail
@@ -215,16 +218,13 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int { //пока не рабочая, не так понял условие
+fun bestHighJump(jumps: String): Int {
     var count = -1
     if (jumps.isEmpty() || !(jumps.matches(Regex("""(\d*\+* *%*-*)*""")))) return -1
-    println(jumps.filter { it !in "%-+" })
     val attempts = jumps.filter { it !in "%-" }.split(" ")
-    println(attempts.size)
-    for (i in attempts.indices) {
-        if ((attempts[i] != "+" || attempts[i] != "") && attempts[i].toInt() > count) {
+    for (i in 0 until attempts.size step 2) {
+        if ((attempts[i].toInt() > count) && (attempts[i + 1] == "+"))
             count = attempts[i].toInt()
-        }
     }
     return count
 }
@@ -289,19 +289,24 @@ fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
     if (!(description.matches(Regex("""([А-я]+ \d+\.*\d*;* *)*""")))) return ""
     val c = description.split(";")
-    val name = c[0].split(" ")[0]
-    val maxPrice = c[0].split(" ")[1]
     val v = c.toString().replace("  ", "")
-    println(c)
-    println(v)
-    println(c.size)
-    println(name)
-    println(maxPrice)
-    for (i in 1 until c.size) {
-        val currentPrice = c[i].split(" ")[1]
-        println(currentPrice)
+    val newc = v.split(",")
+    var name = newc[0].split(" ")[0]
+    if (name.contains("[")) {
+        name = name.replace("[", "")
     }
-    return "1"
+    var maxPrice = newc[0].split(" ")[1]
+    for (i in 1 until newc.size - 1) {
+        var currentPrice = newc[i].split(" ")[1]
+        if (currentPrice.contains("]")) {
+            currentPrice = currentPrice.replace("]", "")
+        }
+        if (currentPrice.toDouble() > maxPrice.toDouble()) {
+            maxPrice = currentPrice
+            name = newc[i].split(" ")[0]
+        }
+    }
+    return name
 }
 
 
