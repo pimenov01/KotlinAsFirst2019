@@ -73,6 +73,7 @@ class Tests {
         assertEquals("", dateDigitToStr("29.02.1993"))
         assertEquals("", dateStrToDigit("30.02.4"))
         assertEquals("", dateStrToDigit("30.02.6325324"))
+        assertEquals("", dateStrToDigit("31.04.1"))
     }
 
     @Test
@@ -142,6 +143,7 @@ class Tests {
         assertEquals("Вино", mostExpensive("Вино 255.0"))
         assertEquals("a", mostExpensive("a 0.0"))
         assertEquals("}", mostExpensive("} 0"))
+        assertEquals(",", mostExpensive(", 0"))
     }
 
     @Test
