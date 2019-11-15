@@ -83,6 +83,7 @@ fun myHelp(day: Int, month: String): Boolean {
         "октября" -> 31
         "ноября" -> 30
         "декабря" -> 31
+        "февраля" -> 29
         else -> 0
     }
     return day <= maxDays
@@ -298,9 +299,9 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String { //пофиксить русскую раскладку
+fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
-    if (!(description.matches(Regex("""([(А-я|A-z)]+ \d+\.*\d*;* *)*""")))) return ""
+    if (!(description.matches(Regex("""([^\s;]+ \d+\.*\d*;* *)*""")))) return ""
     val c = description.split(";")
     val v = c.toString().replace("  ", "")
     val newC = v.split(",")

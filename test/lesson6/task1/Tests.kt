@@ -57,6 +57,7 @@ class Tests {
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("31 февраля 4321540"))
         assertEquals("", dateStrToDigit("30.02.4"))
+        assertEquals("01.02.1", dateStrToDigit("01 февраля 1"))
 
     }
 
@@ -71,6 +72,7 @@ class Tests {
         assertEquals("", dateDigitToStr("32.09.2011"))
         assertEquals("", dateDigitToStr("29.02.1993"))
         assertEquals("", dateStrToDigit("30.02.4"))
+        assertEquals("", dateStrToDigit("30.02.6325324"))
     }
 
     @Test
@@ -139,6 +141,7 @@ class Tests {
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
         assertEquals("a", mostExpensive("a 0.0"))
+        assertEquals("}", mostExpensive("} 0"))
     }
 
     @Test
