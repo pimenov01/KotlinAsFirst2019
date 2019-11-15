@@ -70,6 +70,24 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+fun myHelp(day: Int, month: String): Boolean {
+    val maxDays: Int = when (month) {
+        "января" -> 31
+        "марта" -> 31
+        "апреля" -> 30
+        "мая" -> 31
+        "июня" -> 30
+        "июля" -> 31
+        "августа" -> 31
+        "сентября" -> 30
+        "октября" -> 31
+        "ноября" -> 30
+        "декабря" -> 31
+        else -> 0
+    }
+    return day <= maxDays
+}
+
 fun dateStrToDigit(str: String): String {
     val fail = ""
     if (!(str.matches(Regex("""\d+\s[а-я]+\s\d+""")))) return fail
@@ -93,6 +111,7 @@ fun dateStrToDigit(str: String): String {
     var month = a[1]
     val year = a[2].toInt()
     if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28) return fail
+    if (!myHelp(day, month)) return fail
     if (month in map) {
         val y = map[month]
         if (y != null) {
@@ -111,10 +130,7 @@ fun dateStrToDigit(str: String): String {
  *
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
- *//*for (i in 1 until c.size) {
-        val currentPrice = c[i].split(" ")[1]
-        println(currentPrice)
-    }*/
+ */
 fun dateDigitToStr(digital: String): String {
     val fail = ""
     if (!(digital.matches(Regex("""\d{1,2}\.\d{2}\.\d+""")))) return fail
@@ -220,13 +236,12 @@ fun bestHighJump(jumps: String): Int {
     var count = -1
     if (jumps.isEmpty() || !(jumps.matches(Regex("""(\d*\+* *%*-*)*""")))) return -1
     val attempts = jumps.filter { it !in "%-" }.split(" ")
-    for (i in 0 until attempts.size step 2) {
+    for (i in attempts.indices step 2) {
         if ((attempts[i].toInt() > count) && (attempts[i + 1] == "+"))
             count = attempts[i].toInt()
     }
     return count
 }
-
 
 /**
  * Сложная
@@ -285,11 +300,7 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String { //пофиксить русскую раскладку
     if (description.isEmpty()) return ""
-    if (!(description.matches(Regex("""([А-я]+ \d+\.*\d*;* *)*""")))) return ""
-    if (description.split(" ").size == 2) {
-        val z = description.split(" ")
-        return z[0]
-    }
+    if (!(description.matches(Regex("""([(А-я|A-z)]+ \d+\.*\d*;* *)*""")))) return ""
     val c = description.split(";")
     val v = c.toString().replace("  ", "")
     val newC = v.split(",")
@@ -323,7 +334,61 @@ fun mostExpensive(description: String): String { //пофиксить русск
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    if (!roman.matches(Regex("""([IMCLXVD])*"""))) return -1
+    if (roman.isEmpty()) return -1
+    var roman1 = roman
+    var answer = 0
+    var Icount = 0
+    var Vcount = 0
+    var Xcount = 0
+    var Lcount = 0
+    var Ccount = 0
+    var Dcount = 0
+    var Mcount = 0
+    val c = roman.toList()
+    for (i in 0 until c.size - 1) {
+        if (c[i] == 'I' && c[i + 1] == 'V') {
+            answer += 4
+            roman1 = roman1.replace("IV", "1")
+        }
+        if (c[i] == 'I' && c[i + 1] == 'X') {
+            answer += 9
+            roman1 = roman1.replace("IX", "1")
+        }
+        if (c[i] == 'X' && c[i + 1] == 'L') {
+            answer += 40
+            roman1 = roman1.replace("XL", "1")
+        }
+        if (c[i] == 'X' && c[i + 1] == 'C') {
+            answer += 90
+            roman1 = roman1.replace("XC", "1")
+        }
+        if (c[i] == 'C' && c[i + 1] == 'D') {
+            answer += 400
+            roman1 = roman1.replace("CD", "1")
+        }
+        if (c[i] == 'C' && c[i + 1] == 'M') {
+            answer += 900
+            roman1 = roman1.replace("CM", "1")
+        }
+    }
+    val newC = (roman1.filter { it !in "1" }).toList()
+    if (newC.isNotEmpty()) {
+        for (i in newC.indices) {
+            when (newC[i]) {
+                'I' -> Icount++
+                'V' -> Vcount++
+                'X' -> Xcount++
+                'L' -> Lcount++
+                'C' -> Ccount++
+                'D' -> Dcount++
+                'M' -> Mcount++
+            }
+        }
+    }
+    return answer + (Mcount * 1000) + (Dcount * 500) + (Ccount * 100) + (Lcount * 50) + (Xcount * 10) + (Vcount * 5) + Icount
+}
 
 /**
  * Очень сложная

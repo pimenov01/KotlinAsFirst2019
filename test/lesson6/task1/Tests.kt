@@ -55,6 +55,8 @@ class Tests {
         assertEquals("", dateDigitToStr("12.23.3!@#$%^&*()23"))
         assertEquals("", dateDigitToStr("15.13.2016"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
+        assertEquals("", dateStrToDigit("31 февраля 4321540"))
+        assertEquals("", dateStrToDigit("30.02.4"))
 
     }
 
@@ -68,6 +70,7 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
         assertEquals("", dateDigitToStr("32.09.2011"))
         assertEquals("", dateDigitToStr("29.02.1993"))
+        assertEquals("", dateStrToDigit("30.02.4"))
     }
 
     @Test
@@ -132,9 +135,9 @@ class Tests {
     @Test
     @Tag("Hard")
     fun mostExpensive() {
-        /*assertEquals("", mostExpensive(""))
+        assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
-        assertEquals("Вино", mostExpensive("Вино 255.0"))*/
+        assertEquals("Вино", mostExpensive("Вино 255.0"))
         assertEquals("a", mostExpensive("a 0.0"))
     }
 
@@ -142,11 +145,17 @@ class Tests {
     @Tag("Hard")
     fun fromRoman() {
         assertEquals(1, fromRoman("I"))
+        assertEquals(4, fromRoman("IV"))
         assertEquals(3000, fromRoman("MMM"))
         assertEquals(1978, fromRoman("MCMLXXVIII"))
         assertEquals(694, fromRoman("DCXCIV"))
         assertEquals(49, fromRoman("XLIX"))
+        assertEquals(5009, fromRoman("MMMMMIX"))
+        assertEquals(80, fromRoman("LXXX"))
+        assertEquals(753, fromRoman("DCCLIII"))
+        assertEquals(499, fromRoman("CDXCIX"))
         assertEquals(-1, fromRoman("Z"))
+        assertEquals(-1, fromRoman(""))
     }
 
     @Test
