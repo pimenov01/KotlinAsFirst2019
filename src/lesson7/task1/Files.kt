@@ -231,11 +231,11 @@ fun top20Words(inputName: String): Map<String, Int> {
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val reader = File(inputName).readText().toLowerCase()
+    var reader1 = reader
     for (i in dictionary.keys) {
-        reader.replace(i.toString(), dictionary[i].toString())
+        reader1 = reader1.replace(i.toString(), dictionary[i].toString())
     }
-
-    File(outputName).bufferedWriter().use { it.write(reader) }
+    File(outputName).bufferedWriter().use { it.write(reader1) }
 }
 
 /**
