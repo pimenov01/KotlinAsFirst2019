@@ -146,6 +146,7 @@ class Tests {
         assertEquals("}", mostExpensive("} 0"))
         assertEquals(",", mostExpensive(", 0"))
         assertEquals("[", mostExpensive("[ 0; a 0"))
+        assertEquals(",", mostExpensive(", 0; a 0"))
     }
 
     @Test

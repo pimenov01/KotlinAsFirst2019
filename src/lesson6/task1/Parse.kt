@@ -117,7 +117,7 @@ fun dateDigitToStr(digital: String): String {
     val day = a[0].toInt()
     var month = a[1]
     val year = a[2].toInt()
-    if (day > daysInMonth(month.toInt(),year)) return fail
+    if (day > daysInMonth(month.toInt(), year)) return fail
     month = when (month) {
         "01" -> "января"
         "02" -> "февраля"
@@ -135,9 +135,6 @@ fun dateDigitToStr(digital: String): String {
     }
     return "$day $month $year"
 }
-
-
-
 
 /**
  * Средняя
@@ -192,7 +189,7 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
     var answer = -1
-    if (!jumps.matches(Regex("""(\d*[% -]*)*"""))) return -1
+    if (!jumps.matches(Regex("""([\d% -]*)*"""))) return -1
     val c = jumps.filter { it !in "-%" }.split(" ")
     for (i in c.indices) {
         if (c[i] != "" && c[i].toInt() > answer) {
@@ -283,26 +280,15 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
     if (!(description.matches(Regex("""([^\s;]+ \d+\.*\d*;* *)*""")))) return ""
-    if (description.split(" ").size == 2) {
-        return description.split(" ")[0]
-    }
-    val c = description.split(";")
+    val c = description.split("; ")
     println(c)
-    val v = c.toString().replace("  ", "")
-    val newC = v.split(",")
-    var name = newC[0].split(" ")[0]
-    if (name.contains("[")) {
-        name = name.replace("[", "")
-    }
-    var maxPrice = newC[0].split(" ")[1]
-    for (i in 1 until newC.size - 1) {
-        var currentPrice = newC[i].split(" ")[1]
-        if (currentPrice.contains("]")) {
-            currentPrice = currentPrice.replace("]", "")
-        }
+    var name = c[0].split(" ")[0]
+    var maxPrice = c[0].split(" ")[1]
+    for (i in 1 until c.size - 1) {
+        val currentPrice = c[i].split(" ")[1]
         if (currentPrice.toDouble() > maxPrice.toDouble()) {
             maxPrice = currentPrice
-            name = newC[i].split(" ")[0]
+            name = c[i].split(" ")[0]
         }
     }
     return name
