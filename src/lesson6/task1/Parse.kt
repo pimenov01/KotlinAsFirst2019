@@ -151,29 +151,12 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    var count = 0
-    var i = -1
     val possible = setOf('+', '(', ')', ' ', '-')
     val c = (phone.toSet() - possible - setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
     if (c.isNotEmpty()) return ""
-    val k = phone.filter { it !in "-, ," }
-    for (j in k.indices) {
-        if (k[j] == '(') {
-            i = j
-            break
-        }
-    }
-    if (i >= 0) {
-        do {
-            i++
-            if (k[i].toInt() >= 0 && k[i] != ')') {
-                count -= -1
-                break
-            }
-        } while (k[i] != ')')
-    }
-    if (i >= 0 && count == 0) return ""
-    return k.filter { it !in "(, )" }
+    val k = phone.filter { it !in "- " }
+    if (k.indexOf('(') - k.indexOf(')') == -1) return ""
+    return k.filter { it !in "()" }
 }
 
 /**
@@ -212,7 +195,7 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     var count = -1
-    if (jumps.isEmpty() || !(jumps.matches(Regex("""[\d\+ %-]*""")))) return -1
+    if (jumps.isEmpty() || !(jumps.matches(Regex("""[\d+ %-]*""")))) return -1
     val attempts = jumps.filter { it !in "%-" }.split(" ")
     for (i in attempts.indices step 2) {
         if ((attempts[i].toInt() > count) && (attempts[i + 1] == "+"))
@@ -276,15 +259,13 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-//;
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
     if (!(description.matches(Regex("""([^\s;]+ \d+\.*\d*;* *)*""")))) return ""
     val c = description.split("; ")
-    println(c)
     var name = c[0].split(" ")[0]
     var maxPrice = c[0].split(" ")[1]
-    for (i in 1 until c.size - 1) {
+    for (i in 1 until c.size) {
         val currentPrice = c[i].split(" ")[1]
         if (currentPrice.toDouble() > maxPrice.toDouble()) {
             maxPrice = currentPrice

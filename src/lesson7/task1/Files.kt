@@ -2,8 +2,9 @@
 
 package lesson7.task1
 
+import lesson3.task1.digitNumber
 import java.io.File
-import java.sql.Struct
+
 
 /**
  * Пример
@@ -471,9 +472,28 @@ fun markdownToHtml(inputName: String, outputName: String) {
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val n = lhv.toString()
+    val m = rhv.toString()
+    val y = m.windowed(1).reversed()
+    val resultLength = digitNumber(lhv * rhv) + 1
+    File(outputName).bufferedWriter().use {
+        it.write(" ".repeat(resultLength - digitNumber(lhv)) + n)
+        it.newLine()
+        it.write("*" + " ".repeat(resultLength - digitNumber(rhv) - 1) + m)
+        it.newLine()
+        it.write("-".repeat(resultLength))
+        it.newLine()
+        it.write(" ".repeat(resultLength - (lhv * y[0].toInt()).toString().length) + (lhv * y[0].toInt()).toString())
+        it.newLine()
+        for (i in 1 until y.size) {
+            it.write("+" + " ".repeat(resultLength - (lhv * y[i].toInt()).toString().length - i - 1) + (lhv * y[i].toInt()).toString())
+            it.newLine()
+        }
+        it.write("-".repeat(resultLength))
+        it.newLine()
+        it.write(" " + (lhv * rhv).toString())
+    }
 }
-
 
 /**
  * Сложная
