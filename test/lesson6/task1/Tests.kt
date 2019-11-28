@@ -71,9 +71,9 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
         assertEquals("", dateDigitToStr("32.09.2011"))
         assertEquals("", dateDigitToStr("29.02.1993"))
-        assertEquals("", dateStrToDigit("30.02.4"))
-        assertEquals("", dateStrToDigit("30.02.6325324"))
-        assertEquals("", dateStrToDigit("31.04.1"))
+        assertEquals("", dateDigitToStr("30.02.4"))
+        assertEquals("", dateDigitToStr("30.02.6325324"))
+        assertEquals("", dateDigitToStr("31.04.1"))
     }
 
     @Test
@@ -99,6 +99,7 @@ class Tests {
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
         assertEquals(11, bestLongJump("- 11 - 9 % 5"))
+
     }
 
     @Test

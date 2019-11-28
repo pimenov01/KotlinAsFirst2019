@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 
 /**
  * Пример
@@ -70,24 +72,6 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun myHelp(day: Int, month: String): Boolean {
-    val maxDays: Int = when (month) {
-        "января" -> 31
-        "марта" -> 31
-        "апреля" -> 30
-        "мая" -> 31
-        "июня" -> 30
-        "июля" -> 31
-        "августа" -> 31
-        "сентября" -> 30
-        "октября" -> 31
-        "ноября" -> 30
-        "декабря" -> 31
-        "февраля" -> 29
-        else -> 0
-    }
-    return day <= maxDays
-}
 
 fun dateStrToDigit(str: String): String {
     val fail = ""
@@ -106,20 +90,14 @@ fun dateStrToDigit(str: String): String {
         "ноября" to "11",
         "декабря" to "12"
     )
-    val a = str.split(" ").toMutableList()
+    val a = str.split(" ")
     if (a.size != 3 || a[0].toInt() !in 1..31) return fail
     val day = a[0].toInt()
-    var month = a[1]
+    val month = a[1]
     val year = a[2].toInt()
-    if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28) return fail
-    if (!myHelp(day, month)) return fail
-    if (month in map) {
-        val y = map[month]
-        if (y != null) {
-            month = y
-        }
-    } else return fail
-    return "${twoDigitStr(day)}.$month.$year"
+    if (map[month] == null) return fail
+    if (day > daysInMonth(map[month]!!.toInt(), year)) return fail
+    return "${twoDigitStr(day)}.${map[month]}.$year"
 }
 
 /**
@@ -139,7 +117,7 @@ fun dateDigitToStr(digital: String): String {
     val day = a[0].toInt()
     var month = a[1]
     val year = a[2].toInt()
-    if (day > 31 || ((year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && month == "02" && day > 28)) return fail
+    if (day > daysInMonth(month.toInt(),year)) return fail
     month = when (month) {
         "01" -> "января"
         "02" -> "февраля"
@@ -157,6 +135,9 @@ fun dateDigitToStr(digital: String): String {
     }
     return "$day $month $year"
 }
+
+
+
 
 /**
  * Средняя
@@ -210,15 +191,14 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
-    var answer = 0
+    var answer = -1
     if (!jumps.matches(Regex("""(\d*[% -]*)*"""))) return -1
-    val c = jumps.filter { it !in "-%" }.split(" ").toMutableList()
+    val c = jumps.filter { it !in "-%" }.split(" ")
     for (i in c.indices) {
         if (c[i] != "" && c[i].toInt() > answer) {
             answer = c[i].toInt()
         }
     }
-    if (answer == 0) return -1
     return answer
 }
 
@@ -235,7 +215,7 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     var count = -1
-    if (jumps.isEmpty() || !(jumps.matches(Regex("""(\d*\+* *%*-*)*""")))) return -1
+    if (jumps.isEmpty() || !(jumps.matches(Regex("""[\d\+ %-]*""")))) return -1
     val attempts = jumps.filter { it !in "%-" }.split(" ")
     for (i in attempts.indices step 2) {
         if ((attempts[i].toInt() > count) && (attempts[i + 1] == "+"))
@@ -299,6 +279,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
+//;
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
     if (!(description.matches(Regex("""([^\s;]+ \d+\.*\d*;* *)*""")))) return ""
@@ -306,6 +287,7 @@ fun mostExpensive(description: String): String {
         return description.split(" ")[0]
     }
     val c = description.split(";")
+    println(c)
     val v = c.toString().replace("  ", "")
     val newC = v.split(",")
     var name = newC[0].split(" ")[0]
@@ -339,17 +321,10 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    if (!roman.matches(Regex("""([IMCLXVD])*"""))) return -1
+    if (!roman.matches(Regex("""[IMCLXVD]*"""))) return -1
     if (roman.isEmpty()) return -1
     var roman1 = roman
     var answer = 0
-    var Icount = 0
-    var Vcount = 0
-    var Xcount = 0
-    var Lcount = 0
-    var Ccount = 0
-    var Dcount = 0
-    var Mcount = 0
     val c = roman.toList()
     for (i in 0 until c.size - 1) {
         if (c[i] == 'I' && c[i + 1] == 'V') {
@@ -381,17 +356,17 @@ fun fromRoman(roman: String): Int {
     if (newC.isNotEmpty()) {
         for (i in newC.indices) {
             when (newC[i]) {
-                'I' -> Icount++
-                'V' -> Vcount++
-                'X' -> Xcount++
-                'L' -> Lcount++
-                'C' -> Ccount++
-                'D' -> Dcount++
-                'M' -> Mcount++
+                'I' -> answer += 1
+                'V' -> answer += 5
+                'X' -> answer += 10
+                'L' -> answer += 50
+                'C' -> answer += 100
+                'D' -> answer += 500
+                'M' -> answer += 1000
             }
         }
     }
-    return answer + (Mcount * 1000) + (Dcount * 500) + (Ccount * 100) + (Lcount * 50) + (Xcount * 10) + (Vcount * 5) + Icount
+    return answer
 }
 
 /**
