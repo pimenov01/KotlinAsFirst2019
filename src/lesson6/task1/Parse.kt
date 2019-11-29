@@ -113,7 +113,7 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val fail = ""
     if (!(digital.matches(Regex("""\d{1,2}\.\d{2}\.\d+""")))) return fail
-    val a = digital.split(".").toMutableList()
+    val a = digital.split(".")
     val day = a[0].toInt()
     var month = a[1]
     val year = a[2].toInt()
