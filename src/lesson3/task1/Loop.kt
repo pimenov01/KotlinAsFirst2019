@@ -278,7 +278,15 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var x = 0
+    var i = 0
+    while (x < n) {
+        i++
+        x += digitNumber(sqr(i))
+    }
+    return ((i * i) / 10.0.pow((x - n).toDouble()).toInt() % 10)
+}
 
 /**
  * Сложная

@@ -2,7 +2,6 @@
 
 package lesson8.task2
 
-
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -23,11 +22,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String {
-        return if (inside())
-            ('a' - 1 + column) + row.toString()
-        else ""
-    }
+    fun notation(): String = TODO()
 }
 
 /**
@@ -37,15 +32,7 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square {
-    if (notation.length != 2)
-        throw IllegalArgumentException()
-    val first = notation[0] - 'a' + 1
-    val second = notation[1] - '0'
-    return if (Square(first, second).inside())
-        Square(first, second)
-    else throw IllegalArgumentException()
-}
+fun square(notation: String): Square = TODO()
 
 /**
  * Простая
