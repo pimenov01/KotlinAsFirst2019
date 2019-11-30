@@ -249,7 +249,9 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
 fun digits(n: Int): Int { // убираю первую и последнюю цифру числа
     val digitCount = digitNumber(n)
     var n = n
-    n = ((n.toDouble() % 10.0.pow(((digitCount - 1).toDouble())) / 10.0).toInt())
+    if (n > 9)
+        n = ((n.toDouble() % 10.0.pow(((digitCount - 1).toDouble())) / 10.0).toInt())
+    else return n
     return n
 }
 
@@ -266,7 +268,17 @@ fun compare(n: Int): Boolean { // сравниваю первую и после�
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var x = n
+    val z = (x / 10.0.pow((digitNumber(x) - 1).toDouble())).toInt()
+    while (digitNumber(x) != 1) {
+        if (!compare(x)) return true
+        x = digits(x)
+        if ((x / 10.0.pow((digitNumber(x) - 1).toDouble())).toInt() != z) return true
+
+    }
+    return false
+}
 
 /**
  * Сложная

@@ -228,7 +228,7 @@ class Tests {
     fun digits() {
         assertEquals(575, digits(15751))
         assertEquals(7, digits(575))
-        assertEquals(0, digits(7))
+        assertEquals(7, digits(7))
         assertEquals(1, digits(111))
         assertEquals(757, digits(17571))
         assertEquals(8765432, digits(987654321))
@@ -240,6 +240,7 @@ class Tests {
         assertFalse(compare(157))
         assertTrue(compare(575))
         assertTrue(compare(7))
+        assertFalse(compare(54))
     }
 
     @Test
