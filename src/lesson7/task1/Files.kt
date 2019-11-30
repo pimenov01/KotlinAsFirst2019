@@ -172,19 +172,24 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     File(outputName).bufferedWriter().use {
 
         for (i in reader.indices) {
-            val c = reader[i].split(" ")
+            val c = reader[i].split(Regex("""\s+"""))
             for (j in c.indices) {
                 sum += c[j].length
             }
 
-            val availableSpaces = max - sum
-            val availableSpacesDiv = if (c.size != 1) availableSpaces / (c.size - 1) else 0
-            var availableSpacesPercent = if (c.size != 1) availableSpaces % (c.size - 1) else 0
+            if (c.size == 1) {
+                it.write(c[0])
+            } else {
 
-            for (j in c.indices) {
-                if (c.size == 1 || j == c.size - 1) it.write(c[j]) else {
-                    it.write(c[j] + " ".repeat(availableSpacesDiv + if (availableSpacesPercent > 0) 1 else 0))
-                    availableSpacesPercent--
+                val availableSpaces = max - sum
+                val availableSpacesDiv = availableSpaces / (c.size - 1)
+                val availableSpacesPercent = availableSpaces % (c.size - 1)
+
+                for (j in c.indices) {
+                    if (j == c.size - 1) it.write(c[j]) else {
+                        if (j + 1 <= availableSpacesPercent) it.write(c[j] + " ".repeat(availableSpacesDiv + 1))
+                        else it.write(c[j] + " ".repeat(availableSpacesDiv))
+                    }
                 }
             }
             it.newLine()
