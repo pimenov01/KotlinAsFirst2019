@@ -328,6 +328,13 @@ class Tests {
                 450
             )
         )
+        /*assertEquals(
+            setOf("Слиток", "Шлем"),
+            bagPacking(
+                mapOf("Кубок" to (5 to 3), "Слиток" to (7 to 6), "Меч" to (4 to 2), "Шлем" to (1 to 1)),
+                10
+            )
+        )*/
         assertEquals(
             setOf("Шлем", "Меч"),
             bagPacking(

@@ -3,6 +3,8 @@
 package lesson5.task1
 
 import java.lang.Integer.max
+import java.lang.Math.pow
+import kotlin.math.pow
 
 /**
  * Пример
@@ -339,25 +341,35 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    var set = setOf<String>()
-    val map = mutableMapOf<Int, Pair<Set<String>, Int>>()
-    map[0] = Pair(setOf(), 0)
-    for (i in 1..capacity) {
-        var maxSet = map[i - 1]!!.first
-        var maxMoney = map[i - 1]!!.second
-        for ((x, y) in treasures) {
-            if (i - y.first >= 0) {
-                if (x !in map[i - y.first]!!.first) {
-                    val money = y.second + map[i - y.first]!!.second
-                    if (money > maxMoney) {
-                        maxMoney = money
-                        maxSet = map[i - y.first]!!.first + x
-                    }
-                }
+    val set = mutableSetOf<String>()
+    val names = mutableListOf<String>()
+    val weights = mutableListOf<Int>()
+    val worths = mutableListOf<Int>()
+    val numberOfTreasures = treasures.size
+    for (i in treasures.keys) {
+        names += i
+    }
+    for ((first, second) in treasures.values) {
+        weights += first
+        worths += second
+    }
+    var cMax = 0
+    for (kit in 0 until 2.0.pow(numberOfTreasures.toDouble()).toInt()) {
+        var wTmp = 0
+        var cTmp = 0
+        for (i in 0 until numberOfTreasures) {
+            val mask = 1 shl i
+            if ((kit and mask) > 0) {
+                cTmp += worths[i]
+                wTmp += weights[i]
+            }
+            if (wTmp <= capacity && cTmp > cMax) {
+                cMax = cTmp
+                set += names[i]
             }
         }
-        map[i] = Pair(maxSet, maxMoney)
-        set = maxSet
+
+
     }
     return set
 }
