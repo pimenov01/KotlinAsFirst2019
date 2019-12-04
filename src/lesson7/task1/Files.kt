@@ -221,10 +221,7 @@ fun top20Words(inputName: String): Map<String, Int> {
     val reader = File(inputName).readText().toLowerCase()
     val split = reader.split(Regex("""[^A-zА-яЁё]""")).filter { it.isNotEmpty() }
     for (i in split.indices) {
-        if (split[i] !in map)
-            map += split[i] to 1
-        else
-            map[split[i]] = (map[split[i]] ?: 0) + 1
+        map[split[i]] = (map[split[i]] ?: 0) + 1
 
     }
 
