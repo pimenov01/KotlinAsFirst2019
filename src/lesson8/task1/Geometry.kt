@@ -184,15 +184,22 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line =
-    Line(Point(s.begin.x, s.begin.y), atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x)) % PI)
+fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
+//Line(Point(s.begin.x, s.begin.y), atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x)) % PI)
+
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = Line(a, atan2((b.y - a.y), (b.x - a.x)) % PI)
+fun lineByPoints(a: Point, b: Point): Line { //= Line(a, atan2((b.y - a.y), (b.x - a.x)) % PI)
+    val tan = (b.y - a.y) / (b.x - a.x)
+    return if (tan >= 0)
+        Line(a, atan(tan))
+    else
+        Line(a, (PI - atan(-tan)) % PI)
+}
 
 /**
  * Сложная
