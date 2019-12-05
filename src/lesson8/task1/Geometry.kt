@@ -112,7 +112,7 @@ fun diameter(vararg points: Point): Segment {
     var begin = Point(0.0, 0.0)
     var end = Point(0.0, 0.0)
     for (i in points.indices) {
-        for (j in i until points.size) {
+        for (j in i + 1 until points.size) {
             if (points[i].distance(points[j]).toInt() >= max) {
                 max = points[i].distance(points[j]).toInt()
                 begin = points[i]
@@ -133,8 +133,8 @@ fun diameter(vararg points: Point): Segment {
 fun circleByDiameter(diameter: Segment): Circle {
     val radius = diameter.begin.distance(diameter.end) / 2
     val center = Point(
-        kotlin.math.abs((diameter.end.x - diameter.begin.x) / 2),
-        kotlin.math.abs((diameter.end.y - diameter.begin.y) / 2)
+        (diameter.end.x + diameter.begin.x) / 2,
+        (diameter.end.y + diameter.begin.y) / 2
     )
     return Circle(center, radius)
 }
