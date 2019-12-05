@@ -3,10 +3,7 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Точка на плоскости
@@ -79,14 +76,17 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        if (center.distance(other.center) - radius - other.radius < 0.0) return 0.0
+        return center.distance(other.center) - radius - other.radius
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = p.distance(center) < radius
 }
 
 /**
@@ -106,7 +106,23 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    require(points.size >= 2)
+    var max = -1
+    var begin = Point(0.0, 0.0)
+    var end = Point(0.0, 0.0)
+    for (i in points.indices) {
+        for (j in i until points.size) {
+            if (points[i].distance(points[j]).toInt() >= max) {
+                max = points[i].distance(points[j]).toInt()
+                begin = points[i]
+                end = points[j]
+            }
+        }
+    }
+    return Segment(begin, end)
+
+}
 
 /**
  * Простая
@@ -114,7 +130,14 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val radius = diameter.begin.distance(diameter.end) / 2
+    val center = Point(
+        kotlin.math.abs((diameter.end.x - diameter.begin.x) / 2),
+        kotlin.math.abs((diameter.end.y - diameter.begin.y) / 2)
+    )
+    return Circle(center, radius)
+}
 
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
@@ -135,7 +158,15 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        require(this.angle != other.angle)
+        val xCross =
+            (cos(this.angle) * other.b - cos(other.angle) * this.b) / (cos(other.angle) * sin(this.angle) - sin(other.angle) * cos(
+                this.angle
+            ))
+        val yCross = (xCross * sin(other.angle) + other.b) / (cos(other.angle))
+        return Point(xCross, yCross)
+    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -153,21 +184,23 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line =
+    Line(Point(s.begin.x, s.begin.y), atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x)))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = Line(a, atan2((b.y - a.y), (b.x - a.x)))
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line =
+    Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), (2 * PI + atan((a.y - b.y) / (a.x - b.x)) + PI / 2) % PI)
 
 /**
  * Средняя
