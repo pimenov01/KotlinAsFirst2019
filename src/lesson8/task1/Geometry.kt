@@ -108,13 +108,13 @@ data class Segment(val begin: Point, val end: Point) {
  */
 fun diameter(vararg points: Point): Segment {
     require(points.size >= 2)
-    var max = -1
+    var max = -1.0
     var begin = Point(0.0, 0.0)
     var end = Point(0.0, 0.0)
     for (i in points.indices) {
         for (j in i + 1 until points.size) {
-            if (points[i].distance(points[j]).toInt() >= max) {
-                max = points[i].distance(points[j]).toInt()
+            if (points[i].distance(points[j]) >= max) {
+                max = points[i].distance(points[j])
                 begin = points[i]
                 end = points[j]
             }
