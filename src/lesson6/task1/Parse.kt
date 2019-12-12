@@ -172,7 +172,7 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
     var answer = -1
-    if (!jumps.matches(Regex("""([\d% -]*)*"""))) return -1
+    if (!jumps.matches(Regex("""((\d+|%|-)\s)*(\d+|%|-)"""))) return -1
     val c = jumps.filter { it !in "-%" }.split(" ")
     for (i in c.indices) {
         if (c[i] != "" && c[i].toInt() > answer) {
@@ -195,7 +195,7 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     var count = -1
-    if (jumps.isEmpty() || !(jumps.matches(Regex("""[\d+ %-]*""")))) return -1
+    if (jumps.isEmpty() || !(jumps.matches(Regex("""((\d+\s)([%+\-])+\s)*(\d+\s)([%+\-])+""")))) return -1
     val attempts = jumps.filter { it !in "%-" }.split(" ")
     for (i in attempts.indices step 2) {
         if ((attempts[i].toInt() > count) && (attempts[i + 1] == "+"))
@@ -261,7 +261,7 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
-    if (!(description.matches(Regex("""([^\s;]+ \d+\.*\d*;* *)*""")))) return ""
+    if (!(description.matches(Regex("""((\S+\s(\d+(.\d+)?));\s)*(\S+\s(\d+(.\d+)?))""")))) return ""
     val c = description.split("; ")
     val almostSomething = c[0].split(" ")
     var name = almostSomething[0]

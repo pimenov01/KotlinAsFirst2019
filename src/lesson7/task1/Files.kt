@@ -160,11 +160,11 @@ fun centerFile(inputName: String, outputName: String) {
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
     var max = -1
-    var sum = 0
     val reader = File(inputName).readLines().map { it.trim() }
 
-    for (i in reader.indices) {
-        val currentLength = reader[i].replace(Regex("""\s+"""), " ").trim().length
+    val regex = Regex("""\s+""")
+    for (i in reader) {
+        val currentLength = i.replace(regex, " ").trim().length
         if (currentLength > max)
             max = currentLength
     }
@@ -172,7 +172,8 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     File(outputName).bufferedWriter().use {
 
         for (i in reader.indices) {
-            val c = reader[i].split(Regex("""\s+"""))
+            var sum = 0
+            val c = reader[i].split(regex)
             for (j in c.indices) {
                 sum += c[j].length
             }
@@ -186,14 +187,16 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 val availableSpacesPercent = availableSpaces % (c.size - 1)
 
                 for (j in c.indices) {
-                    if (j == c.size - 1) it.write(c[j]) else {
-                        if (j + 1 <= availableSpacesPercent) it.write(c[j] + " ".repeat(availableSpacesDiv + 1))
-                        else it.write(c[j] + " ".repeat(availableSpacesDiv))
+
+                    when {
+                        j == c.size - 1 -> it.write(c[j])
+                        j + 1 <= availableSpacesPercent -> it.write(c[j] + " ".repeat(availableSpacesDiv + 1))
+                        else -> it.write(c[j] + " ".repeat(availableSpacesDiv))
                     }
+
                 }
             }
             it.newLine()
-            sum = 0
         }
     }
 }
