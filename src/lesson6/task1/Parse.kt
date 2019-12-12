@@ -263,13 +263,15 @@ fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
     if (!(description.matches(Regex("""([^\s;]+ \d+\.*\d*;* *)*""")))) return ""
     val c = description.split("; ")
-    var name = c[0].split(" ")[0]
-    var maxPrice = c[0].split(" ")[1]
+    val almostSomething = c[0].split(" ")
+    var name = almostSomething[0]
+    var maxPrice = almostSomething[1]
     for (i in 1 until c.size) {
-        val currentPrice = c[i].split(" ")[1]
+        val almostSomething2 = c[i].split(" ")
+        val currentPrice = almostSomething2[1]
         if (currentPrice.toDouble() > maxPrice.toDouble()) {
             maxPrice = currentPrice
-            name = c[i].split(" ")[0]
+            name = almostSomething2[0]
         }
     }
     return name
