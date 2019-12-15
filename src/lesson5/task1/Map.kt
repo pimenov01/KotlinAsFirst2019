@@ -345,6 +345,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     val names = mutableListOf<String>()
     val weights = mutableListOf<Int>()
     val worths = mutableListOf<Int>()
+
     val numberOfTreasures = treasures.size
     for (i in treasures.keys) {
         names += i
@@ -355,21 +356,27 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     var cMax = 0
     for (kit in 0 until 2.0.pow(numberOfTreasures.toDouble()).toInt()) {
+        val megaNames = mutableListOf<String>()
         var wTmp = 0
         var cTmp = 0
         for (i in 0 until numberOfTreasures) {
+
             val mask = 1 shl i
+
             if ((kit and mask) > 0) {
                 cTmp += worths[i]
                 wTmp += weights[i]
+                megaNames += names[i]
             }
-            if (wTmp <= capacity && cTmp > cMax) {
-                cMax = cTmp
-                set += names[i]
-            }
+        }
+
+        if (wTmp <= capacity && cTmp > cMax) {
+            cMax = cTmp
+            set += megaNames
         }
 
 
     }
+    println(cMax)
     return set
 }
