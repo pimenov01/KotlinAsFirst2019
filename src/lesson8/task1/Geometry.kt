@@ -166,9 +166,10 @@ class Line private constructor(val b: Double, val angle: Double) {
             (cos(this.angle) * other.b - cos(other.angle) * this.b) / (cos(other.angle) * sin(this.angle) - sin(other.angle) * cos(
                 this.angle
             ))
-        val yCross = (xCross * sin(other.angle) + other.b) / (cos(other.angle))
+        val yCross = (b * sin(other.angle) - other.b * sin(angle)) / sin(other.angle - angle)
         return Point(xCross, yCross)
     }
+    //val yCross = (xCross * sin(other.angle) + other.b) / (cos(other.angle))
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
