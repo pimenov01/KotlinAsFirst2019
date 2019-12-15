@@ -2,7 +2,8 @@
 
 package lesson8.task2
 
-import java.lang.Math.abs
+import java.lang.IllegalArgumentException
+
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -168,7 +169,12 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int =
+    when {
+        !start.inside() || !end.inside() -> throw IllegalArgumentException()
+        else -> maxOf(kotlin.math.abs(end.row - start.row), kotlin.math.abs(end.column - start.column))
+    }
+
 
 /**
  * Сложная
@@ -184,7 +190,19 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val points = mutableListOf(start)
+    var xStep = if (end.column > start.column) 1 else -1
+    var yStep = if (end.row > start.row) 1 else -1
+    while (end.row != points.last().row && end.column != points.last().column) {
+        points.add(Square(points.last().column + xStep, points.last().row + yStep))
+    }
+    if (end.column == points.last().column) xStep = 0 else yStep = 0
+    while (points.last() != end) {
+        points.add(Square(points.last().column + xStep, points.last().row + yStep))
+    }
+    return points
+}
 
 /**
  * Сложная
