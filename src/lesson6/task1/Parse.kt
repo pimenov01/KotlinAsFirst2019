@@ -265,11 +265,11 @@ fun mostExpensive(description: String): String {
     val c = description.split("; ")
     val almostSomething = c[0].split(" ")
     var name = almostSomething[0]
-    var maxPrice = almostSomething[1]
+    var maxPrice = almostSomething[1].toDouble()
     for (i in 1 until c.size) {
         val almostSomething2 = c[i].split(" ")
-        val currentPrice = almostSomething2[1]
-        if (currentPrice.toDouble() > maxPrice.toDouble()) {
+        val currentPrice = almostSomething2[1].toDouble()
+        if (currentPrice > maxPrice) {
             maxPrice = currentPrice
             name = almostSomething2[0]
         }

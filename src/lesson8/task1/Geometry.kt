@@ -77,8 +77,9 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double {
-        if (center.distance(other.center) - radius - other.radius < 0.0) return 0.0
-        return center.distance(other.center) - radius - other.radius
+        val c = center.distance(other.center) - radius - other.radius
+        if (c < 0.0) return 0.0
+        return c
     }
 
     /**
@@ -113,8 +114,9 @@ fun diameter(vararg points: Point): Segment {
     var end = Point(0.0, 0.0)
     for (i in points.indices) {
         for (j in i + 1 until points.size) {
-            if (points[i].distance(points[j]) >= max) {
-                max = points[i].distance(points[j])
+            val c = points[i].distance(points[j])
+            if (c >= max) {
+                max = c
                 begin = points[i]
                 end = points[j]
             }
@@ -185,7 +187,6 @@ class Line private constructor(val b: Double, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
-//Line(Point(s.begin.x, s.begin.y), atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x)) % PI)
 
 
 /**
@@ -193,7 +194,7 @@ fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line { //= Line(a, atan2((b.y - a.y), (b.x - a.x)) % PI)
+fun lineByPoints(a: Point, b: Point): Line {
     val tan = (b.y - a.y) / (b.x - a.x)
     return if (tan >= 0)
         Line(a, atan(tan))
@@ -228,7 +229,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
-    val radius = a.distance(b) * a.distance(c) * b.distance(c) / (4 * Triangle(a, b, c).area())
+    val radius = a.distance(c) * a.distance(b) * b.distance(c) / (4 * Triangle(a, b, c).area())
     return Circle(center, radius)
 }
 
