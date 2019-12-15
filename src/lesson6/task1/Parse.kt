@@ -154,6 +154,9 @@ fun flattenPhoneNumber(phone: String): String {
     val possible = setOf('+', '(', ')', ' ', '-')
     val c = (phone.toSet() - possible - setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
     if (c.isNotEmpty()) return ""
+    val k1 = phone.filter { it in "()" }
+    if (k1.isNotEmpty())
+        if (!k1.matches(Regex("""\(\)"""))) return ""
     val k = phone.filter { it !in "- " }
     if (k.indexOf('(') - k.indexOf(')') == -1) return ""
     return k.filter { it !in "()" }

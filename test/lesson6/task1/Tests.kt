@@ -89,6 +89,11 @@ class Tests {
         assertEquals("", flattenPhoneNumber("134_+874"))
         assertEquals("+12845", flattenPhoneNumber("+12 (8) 4-5"))
         assertEquals("", flattenPhoneNumber("+12 (-) 4-5"))
+        assertEquals("", flattenPhoneNumber("+7 )921) 123-45-67"))
+        assertEquals("", flattenPhoneNumber("+7 )921( 123-45-67"))
+        assertEquals("", flattenPhoneNumber("+7 ((921) 123-45-67"))
+        assertEquals("", flattenPhoneNumber("+7 (921)) 123-45-67"))
+        assertEquals("", flattenPhoneNumber("+7 (921) 123-45-67("))
     }
 
     @Test
