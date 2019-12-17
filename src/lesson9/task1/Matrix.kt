@@ -71,7 +71,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, default: 
 
     override fun equals(other: Any?) = TODO()
 
-    override fun toString(): String = TODO()
+    override fun toString(): String = info.joinToString()
 
     override fun hashCode(): Int {
         var result = height
