@@ -378,3 +378,43 @@ fun fromRoman(roman: String): Int {
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+fun myFun(text: String): List<String> {
+
+    if (!text.matches(Regex("""([А-я]+\s+\d+\s[а-я]+,\s)+[А-я]+\s+\d+\s[а-я]+"""))) return emptyList()
+
+    val result = mutableListOf<String>()
+    val regex = Regex(" ")
+    val text1 = text.replace(Regex("""\s+"""), " ")
+    val c = text1.split(", ")
+
+    val map = mapOf(
+        "января" to 1,
+        "февраля" to 2,
+        "марта" to 3,
+        "апреля" to 4,
+        "мая" to 5,
+        "июня" to 6,
+        "июля" to 7,
+        "августа" to 8,
+        "сентября" to 9,
+        "октября" to 10,
+        "ноября" to 11,
+        "декабря" to 11
+
+    )
+
+    for (line in c) {
+
+        val z = line.split(regex)
+        val day = z[1].toInt()
+        val month = z[2]
+
+        if (month !in map.keys) result += line else
+            if (day > map[month]?.let { daysInMonth(it, 4) }!!)
+                result += line
+    }
+
+    return result
+
+}

@@ -194,4 +194,19 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+
+    @Test
+    fun myFun() {
+        assertEquals(
+            listOf("Андрей 31 апреля", "Вася 56 июля"),
+            myFun("Андрей 31 апреля, Маша 3 апреля, Коля 3 июля, Вася 56 июля")
+        )
+        assertEquals(listOf("Вася 56 июля"), myFun("Андрей 12 июля, Маша 3 апреля, Коля 3 июля, Вася 56 июля"))
+        assertEquals(emptyList<String>(), myFun("Андрей 12 июля, Маша 3 апреля, Коля 3 июля, Вася 6 июля"))
+        assertEquals(
+            listOf("Андрей 31 апреля", "Маша 3 апреляя", "Коля 32 июля", "Вася 56 июля"),
+            myFun("Андрей 31 апреля, Маша    3 апреляя, Коля 32 июля, Вася 56 июля")
+        )
+
+    }
 }
