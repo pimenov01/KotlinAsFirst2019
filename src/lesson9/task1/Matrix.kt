@@ -69,7 +69,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, default: 
 
     override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
 
-    override fun equals(other: Any?) = TODO()
+    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && info == other.info
 
     override fun toString(): String = info.joinToString()
 
