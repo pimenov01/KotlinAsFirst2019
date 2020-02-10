@@ -84,12 +84,42 @@ class Polynom(vararg coeffs: Double) {
     /**
      * Смена знака (при всех слагаемых)
      */
-    operator fun unaryMinus(): Polynom = TODO()
+    operator fun unaryMinus(): Polynom {
+        val unaryCoeffs = trueCoeffs.reversed().toMutableList()
+        for (i in unaryCoeffs.indices) {
+            unaryCoeffs[i] = -unaryCoeffs[i]
+        }
+        return Polynom(*unaryCoeffs.toDoubleArray())
+    }
 
     /**
      * Вычитание
      */
-    operator fun minus(other: Polynom): Polynom = TODO()
+    operator fun minus(other: Polynom): Polynom {
+        val maxPolynom: List<Double>
+        var minPolynom: List<Double>
+
+        if (this.degree() > other.degree()) {
+            maxPolynom = this.trueCoeffs
+            minPolynom = other.trueCoeffs
+        } else {
+            maxPolynom = other.trueCoeffs
+            minPolynom = this.trueCoeffs
+        }
+
+        val coeffs = MutableList(maxPolynom.size) { 0.0 }
+        while (maxPolynom.size != minPolynom.size) minPolynom += 0.0
+
+
+        for (i in maxPolynom.indices)
+            if (this.trueCoeffs.size > other.trueCoeffs.size)
+            coeffs[i] += maxPolynom[i] - minPolynom[i]
+            else
+                coeffs[i] += minPolynom[i] - maxPolynom[i]
+
+
+        return Polynom(*coeffs.reversed().toDoubleArray())
+    }
 
     /**
      * Умножение
