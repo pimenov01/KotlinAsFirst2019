@@ -2,6 +2,8 @@
 
 package lesson11.task1
 
+import kotlin.math.pow
+
 /**
  * Класс "полином с вещественными коэффициентами".
  *
@@ -21,15 +23,23 @@ package lesson11.task1
  */
 class Polynom(vararg coeffs: Double) {
 
+    private val trueCoeffs = coeffs.toList().reversed()
+
     /**
      * Геттер: вернуть значение коэффициента при x^i
      */
-    fun coeff(i: Int): Double = TODO()
+    fun coeff(i: Int): Double = trueCoeffs[i]
 
     /**
      * Расчёт значения при заданном x
      */
-    fun getValue(x: Double): Double = TODO()
+    fun getValue(x: Double): Double {
+        var ans = 0.0
+        for (i in trueCoeffs.indices) {
+            ans += x.pow(i) * trueCoeffs[i]
+        }
+        return ans
+    }
 
     /**
      * Степень (максимальная степень x при ненулевом слагаемом, например 2 для x^2+x+1).
@@ -38,7 +48,14 @@ class Polynom(vararg coeffs: Double) {
      * Слагаемые с нулевыми коэффициентами игнорировать, т.е.
      * степень 0x^2+0x+2 также равна 0.
      */
-    fun degree(): Int = TODO()
+    fun degree(): Int {
+        val thisCoeffs = trueCoeffs.reversed()
+        val size = thisCoeffs.size - 1
+        for (i in thisCoeffs.indices) {
+            if (thisCoeffs[i] != 0.0) return size - i
+        }
+        return 0
+    }
 
     /**
      * Сложение

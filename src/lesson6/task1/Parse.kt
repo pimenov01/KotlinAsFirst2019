@@ -3,7 +3,8 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import java.lang.Math.abs
+import ru.spbstu.wheels.NegativeInfinity
+import kotlin.random.Random
 
 
 /**
