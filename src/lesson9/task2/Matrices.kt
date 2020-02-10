@@ -3,7 +3,9 @@
 package lesson9.task2
 
 import lesson9.task1.Matrix
+import lesson9.task1.MatrixImpl
 import lesson9.task1.createMatrix
+import kotlin.math.min
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -76,7 +78,13 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width ,0)
+    for (i in 0 until height)
+        for (j in 0 until width)
+            matrix[i,j] = min(min(i, height - 1 - i), min(j, width - 1 - j)) + 1
+    return matrix
+}
 
 /**
  * Сложная
@@ -207,9 +215,9 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
 operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
-    val matrix = createMatrix(this.height, this.width, 0)
-    for (i in 0 until this.width) {
-        for (j in 0 until this.width)
+    val matrix = MatrixImpl(height, width, 0)
+    for (i in 0 until height) {
+        for (j in 0 until width)
             matrix[i, j] = -this[i, j]
     }
     return matrix
