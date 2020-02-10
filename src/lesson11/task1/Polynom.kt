@@ -162,7 +162,21 @@ class Polynom(vararg coeffs: Double) {
      *
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
-    operator fun div(other: Polynom): Polynom = TODO()
+    operator fun div(other: Polynom): Polynom {
+        val first = this.trueCoeffs.reversed()[0] / other.trueCoeffs.reversed()[0]
+        val second = Polynom(1.0, 0.0) * other
+        val third = this - second
+        val forth = third.trueCoeffs[2] / other.trueCoeffs.reversed()[0]
+        val fifth = Polynom(1.0, -1.0) * other
+        println(this.trueCoeffs.reversed()[0])
+        println(other.trueCoeffs.reversed()[0])
+        println(first)
+        println(second)
+        println(third)
+        println(forth)
+        println(fifth)
+        return Polynom(0.0)
+    }
 
     /**
      * Взятие остатка
@@ -173,6 +187,8 @@ class Polynom(vararg coeffs: Double) {
      * Сравнение на равенство
      */
     override fun equals(other: Any?): Boolean = other is Polynom && this.trueCoeffs == other.trueCoeffs
+
+    override fun toString(): String = trueCoeffs.joinToString()
 
     /**
      * Получение хеш-кода
