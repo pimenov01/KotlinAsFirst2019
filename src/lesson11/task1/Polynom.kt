@@ -60,7 +60,26 @@ class Polynom(vararg coeffs: Double) {
     /**
      * Сложение
      */
-    operator fun plus(other: Polynom): Polynom = TODO()
+    operator fun plus(other: Polynom): Polynom {
+
+        val maxPolynom: List<Double>
+        var minPolynom: List<Double>
+
+        if (this.degree() > other.degree()) {
+            maxPolynom = this.trueCoeffs
+            minPolynom = other.trueCoeffs
+        } else {
+            maxPolynom = other.trueCoeffs
+            minPolynom = this.trueCoeffs
+        }
+
+        val coeffs = MutableList(maxPolynom.size) { 0.0 }
+        while (maxPolynom.size != minPolynom.size) minPolynom += 0.0
+
+        for (i in maxPolynom.indices) coeffs[i] += maxPolynom[i] + minPolynom[i]
+
+        return Polynom(*coeffs.reversed().toDoubleArray())
+    }
 
     /**
      * Смена знака (при всех слагаемых)
