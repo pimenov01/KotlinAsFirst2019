@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 
 package lesson11.task1
+
 import kotlin.math.pow
+
 /**
  * Класс "полином с вещественными коэффициентами".
  *
@@ -122,7 +124,26 @@ class Polynom(vararg coeffs: Double) {
     /**
      * Умножение
      */
-    operator fun times(other: Polynom): Polynom = TODO()
+    operator fun times(other: Polynom): Polynom {
+        val answer = MutableList(this.trueCoeffs.size + other.trueCoeffs.size) { 0.0 }
+        for (i in this.trueCoeffs.indices) {
+            for (j in other.trueCoeffs.indices)
+                answer[i + j] += trueCoeffs[i] * other.trueCoeffs[j]
+        }
+        return Polynom(*answer.reversed().toDoubleArray())
+    }
+    /*val answer = mutableListOf<Double>()
+        var Polynom = Polynom()
+        for (i in this.trueCoeffs.indices) {
+            if (this.trueCoeffs[i] != 0.0) {
+                for (j in other.trueCoeffs.indices)
+                    answer[j] *= this.trueCoeffs[i]
+                for (j in 1..i) answer.add(0.0)
+                Polynom += Polynom(*answer.toDoubleArray())
+            }
+        }
+        return Polynom*/
+
 
     /*var answer = Polynom()
         for (i in this.trueCoeffs.indices) {
