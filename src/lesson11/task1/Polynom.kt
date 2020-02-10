@@ -1,9 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 
 package lesson11.task1
-
 import kotlin.math.pow
-
 /**
  * Класс "полином с вещественными коэффициентами".
  *
@@ -113,7 +111,7 @@ class Polynom(vararg coeffs: Double) {
 
         for (i in maxPolynom.indices)
             if (this.trueCoeffs.size > other.trueCoeffs.size)
-            coeffs[i] += maxPolynom[i] - minPolynom[i]
+                coeffs[i] += maxPolynom[i] - minPolynom[i]
             else
                 coeffs[i] += minPolynom[i] - maxPolynom[i]
 
@@ -125,6 +123,15 @@ class Polynom(vararg coeffs: Double) {
      * Умножение
      */
     operator fun times(other: Polynom): Polynom = TODO()
+
+    /*var answer = Polynom()
+        for (i in this.trueCoeffs.indices) {
+            for (j in other.trueCoeffs.indices)
+                answer += Polynom(this.trueCoeffs[i] * other.trueCoeffs[j]).plus(answer)
+
+        }
+        return answer*/
+
 
     /**
      * Деление
