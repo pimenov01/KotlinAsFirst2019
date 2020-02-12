@@ -23,7 +23,7 @@ import kotlin.math.pow
  */
 class Polynom(vararg coeffs: Double) {
 
-    private val trueCoeffs = coeffs.toList().reversed()
+    private val trueCoeffs = coeffs.toList().reversed().dropLastWhile { it == 0.0 }
 
     /**
      * Геттер: вернуть значение коэффициента при x^i
@@ -163,25 +163,29 @@ class Polynom(vararg coeffs: Double) {
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
     operator fun div(other: Polynom): Polynom {
-        val first = this.trueCoeffs.reversed()[0] / other.trueCoeffs.reversed()[0]
-        val second = Polynom(1.0, 0.0) * other
-        val third = this - second
-        val forth = third.trueCoeffs[2] / other.trueCoeffs.reversed()[0]
-        val fifth = Polynom(1.0, -1.0) * other
-        println(this.trueCoeffs.reversed()[0])
-        println(other.trueCoeffs.reversed()[0])
-        println(first)
-        println(second)
-        println(third)
-        println(forth)
-        println(fifth)
-        return Polynom(0.0)
+
+        var divisible = this //Polynom(*this.trueCoeffs.reversed().toDoubleArray())
+        //val divider = other // Polynom(*other.trueCoeffs.reversed().dropLastWhile { it == 0.0 }.toDoubleArray())
+        val answerList = mutableListOf<Double>()
+        var i = divisible.trueCoeffs.size - other.trueCoeffs.size
+
+        while (i >= 0) {
+            val x = divisible.trueCoeffs[i + other.trueCoeffs.size - 1] / other.trueCoeffs.last()
+            answerList += x
+            val newList = List(i + 1) { 0.0 }.toMutableList()
+            newList[newList.size - 1] = x
+            val currentPolynom = Polynom(*newList.reversed().toDoubleArray()) * other
+            divisible -= currentPolynom
+            i--
+        }
+
+        return Polynom(*answerList.toDoubleArray())
     }
 
     /**
      * Взятие остатка
      */
-    operator fun rem(other: Polynom): Polynom = TODO()
+    operator fun rem(other: Polynom): Polynom = this.minus(other.times(this.div(other)))
 
     /**
      * Сравнение на равенство
