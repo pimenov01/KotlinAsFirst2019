@@ -132,27 +132,6 @@ class Polynom(vararg coeffs: Double) {
         }
         return Polynom(*answer.reversed().toDoubleArray())
     }
-    /*val answer = mutableListOf<Double>()
-        var Polynom = Polynom()
-        for (i in this.trueCoeffs.indices) {
-            if (this.trueCoeffs[i] != 0.0) {
-                for (j in other.trueCoeffs.indices)
-                    answer[j] *= this.trueCoeffs[i]
-                for (j in 1..i) answer.add(0.0)
-                Polynom += Polynom(*answer.toDoubleArray())
-            }
-        }
-        return Polynom*/
-
-
-    /*var answer = Polynom()
-        for (i in this.trueCoeffs.indices) {
-            for (j in other.trueCoeffs.indices)
-                answer += Polynom(this.trueCoeffs[i] * other.trueCoeffs[j]).plus(answer)
-
-        }
-        return answer*/
-
 
     /**
      * Деление
@@ -164,16 +143,15 @@ class Polynom(vararg coeffs: Double) {
      */
     operator fun div(other: Polynom): Polynom {
 
-        var divisible = this //Polynom(*this.trueCoeffs.reversed().toDoubleArray())
-        //val divider = other // Polynom(*other.trueCoeffs.reversed().dropLastWhile { it == 0.0 }.toDoubleArray())
+        var divisible = this
         val answerList = mutableListOf<Double>()
         var i = divisible.trueCoeffs.size - other.trueCoeffs.size
 
         while (i >= 0) {
-            val x = divisible.trueCoeffs[i + other.trueCoeffs.size - 1] / other.trueCoeffs.last()
-            answerList += x
+            val partOfAnswer = divisible.trueCoeffs[i + other.trueCoeffs.size - 1] / other.trueCoeffs.last()
+            answerList += partOfAnswer
             val newList = List(i + 1) { 0.0 }.toMutableList()
-            newList[newList.size - 1] = x
+            newList[newList.size - 1] = partOfAnswer
             val currentPolynom = Polynom(*newList.reversed().toDoubleArray()) * other
             divisible -= currentPolynom
             i--
