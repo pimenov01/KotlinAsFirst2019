@@ -2,7 +2,6 @@
 
 package lesson11.task1
 
-import kotlin.math.pow
 
 /**
  * Класс "полином с вещественными коэффициентами".
@@ -23,7 +22,9 @@ import kotlin.math.pow
  */
 class Polynom(vararg coeffs: Double) {
 
-    private val trueCoeffs = coeffs.toList().reversed().dropLastWhile { it == 0.0 }
+    private val trueCoeffs = coeffs.reversed().dropLastWhile { it == 0.0 }.toMutableList()
+
+    constructor(list: List<Double>) : this(*list.toDoubleArray())
 
     /**
      * Геттер: вернуть значение коэффициента при x^i
@@ -35,9 +36,8 @@ class Polynom(vararg coeffs: Double) {
      */
     fun getValue(x: Double): Double {
         var ans = 0.0
-        for (i in trueCoeffs.indices) {
-            ans += x.pow(i) * trueCoeffs[i]
-        }
+        var a = 1.0
+        trueCoeffs.forEach { ans += a * it; a *= x }
         return ans
     }
 
@@ -49,10 +49,9 @@ class Polynom(vararg coeffs: Double) {
      * степень 0x^2+0x+2 также равна 0.
      */
     fun degree(): Int {
-        val thisCoeffs = trueCoeffs.reversed()
-        val size = thisCoeffs.size - 1
-        for (i in thisCoeffs.indices) {
-            if (thisCoeffs[i] != 0.0) return size - i
+        val size = trueCoeffs.reversed().size - 1
+        for (i in trueCoeffs.reversed().indices) {
+            return size - i
         }
         return 0
     }
@@ -62,8 +61,8 @@ class Polynom(vararg coeffs: Double) {
      */
     operator fun plus(other: Polynom): Polynom {
 
-        val maxPolynom: List<Double>
-        var minPolynom: List<Double>
+        val maxPolynom: MutableList<Double>
+        val minPolynom: MutableList<Double>
 
         if (this.degree() > other.degree()) {
             maxPolynom = this.trueCoeffs
@@ -76,50 +75,21 @@ class Polynom(vararg coeffs: Double) {
         val coeffs = MutableList(maxPolynom.size) { 0.0 }
         while (maxPolynom.size != minPolynom.size) minPolynom += 0.0
 
-        for (i in maxPolynom.indices) coeffs[i] += maxPolynom[i] + minPolynom[i]
+        coeffs.indices.forEach { coeffs[it] = maxPolynom[it] + minPolynom[it] }
 
-        return Polynom(*coeffs.reversed().toDoubleArray())
+        return Polynom(coeffs.reversed())
     }
+
 
     /**
      * Смена знака (при всех слагаемых)
      */
-    operator fun unaryMinus(): Polynom {
-        val unaryCoeffs = trueCoeffs.reversed().toMutableList()
-        for (i in unaryCoeffs.indices) {
-            unaryCoeffs[i] = -unaryCoeffs[i]
-        }
-        return Polynom(*unaryCoeffs.toDoubleArray())
-    }
+    operator fun unaryMinus(): Polynom = Polynom(trueCoeffs.reversed().map { -it })
 
     /**
      * Вычитание
      */
-    operator fun minus(other: Polynom): Polynom {
-        val maxPolynom: List<Double>
-        var minPolynom: List<Double>
-
-        if (this.degree() > other.degree()) {
-            maxPolynom = this.trueCoeffs
-            minPolynom = other.trueCoeffs
-        } else {
-            maxPolynom = other.trueCoeffs
-            minPolynom = this.trueCoeffs
-        }
-
-        val coeffs = MutableList(maxPolynom.size) { 0.0 }
-        while (maxPolynom.size != minPolynom.size) minPolynom += 0.0
-
-
-        for (i in maxPolynom.indices)
-            if (this.trueCoeffs.size > other.trueCoeffs.size)
-                coeffs[i] += maxPolynom[i] - minPolynom[i]
-            else
-                coeffs[i] += minPolynom[i] - maxPolynom[i]
-
-
-        return Polynom(*coeffs.reversed().toDoubleArray())
-    }
+    operator fun minus(other: Polynom): Polynom = this + other.unaryMinus()
 
     /**
      * Умножение
@@ -130,7 +100,7 @@ class Polynom(vararg coeffs: Double) {
             for (j in other.trueCoeffs.indices)
                 answer[i + j] += trueCoeffs[i] * other.trueCoeffs[j]
         }
-        return Polynom(*answer.reversed().toDoubleArray())
+        return Polynom(answer.reversed())
     }
 
     /**
@@ -152,12 +122,12 @@ class Polynom(vararg coeffs: Double) {
             answerList += partOfAnswer
             val newList = List(i + 1) { 0.0 }.toMutableList()
             newList[newList.size - 1] = partOfAnswer
-            val currentPolynom = Polynom(*newList.reversed().toDoubleArray()) * other
+            val currentPolynom = Polynom(newList.reversed()) * other
             divisible -= currentPolynom
             i--
         }
 
-        return Polynom(*answerList.toDoubleArray())
+        return Polynom(answerList)
     }
 
     /**
