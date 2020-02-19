@@ -56,6 +56,7 @@ internal class PhoneBookTest {
         assertTrue(book.addPhone("Иванов Петр", "+79211234567"))
         assertTrue(book.addPhone("Иванов Петр", "+78121234567"))
         assertEquals(setOf("+79211234567", "+78121234567"), book.phones("Иванов Петр"))
+        assertEquals(emptySet<String>(), book.phones("Васильев Дмитрий"))
     }
 
     @Test
@@ -68,6 +69,7 @@ internal class PhoneBookTest {
         assertTrue(book.addPhone("Васильев Дмитрий", "+79217654321"))
         assertEquals("Васильев Дмитрий", book.humanByPhone("+79217654321"))
         assertEquals("Иванов Петр", book.humanByPhone("+78121234567"))
+        assertEquals("Иванов Петр", book.humanByPhone("+79211234567"))
         assertNull(book.humanByPhone("+78127654321"))
     }
 
@@ -86,6 +88,10 @@ internal class PhoneBookTest {
         assertTrue(book2.addPhone("Васильев Дмитрий", "+79217654321"))
         assertTrue(book2.addPhone("Иванов Петр", "+79211234567"))
         assertTrue(book == book2)
+        val book3 = PhoneBook()
+        val book4 = PhoneBook()
+        assertTrue(book3 == book4)
+        assertFalse(book3 == book2)
     }
 
     @Test
@@ -103,5 +109,9 @@ internal class PhoneBookTest {
         assertTrue(book2.addPhone("Васильев Дмитрий", "+79217654321"))
         assertTrue(book2.addPhone("Иванов Петр", "+79211234567"))
         assertTrue(book.hashCode() == book2.hashCode())
+        val book3 = PhoneBook()
+        val book4 = PhoneBook()
+        assertTrue(book3.hashCode() == book4.hashCode())
+        assertFalse(book.hashCode() == book4.hashCode())
     }
 }

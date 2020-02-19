@@ -39,14 +39,7 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
-    fun removeHuman(name: String): Boolean {
-        return if (info.containsKey(name)) {
-            info.remove(name)
-            true
-        } else {
-            false
-        }
-    }
+    fun removeHuman(name: String): Boolean = info.remove(name) != null
 
     /**
      * Создает сет со всеми номерами телефонов.
@@ -94,10 +87,7 @@ class PhoneBook {
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> {
-        if (name !in info.keys) return emptySet()
-        return info.getValue(name)
-    }
+    fun phones(name: String): Set<String> = info.getOrDefault(name, emptySet<String>().toMutableSet())
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
