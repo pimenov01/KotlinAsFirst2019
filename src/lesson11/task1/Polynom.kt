@@ -111,11 +111,11 @@ class Polynom(vararg coeffs: Double) {
      *
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
-    operator fun div(other: Polynom): Polynom {
-
+    fun divOrRem(other: Polynom, flag: Int): Polynom {
         var divisible = this
         val answerList = mutableListOf<Double>()
         var i = divisible.trueCoeffs.size - other.trueCoeffs.size
+        var rem = Polynom()
 
         while (i >= 0) {
             val partOfAnswer = divisible.trueCoeffs[i + other.trueCoeffs.size - 1] / other.trueCoeffs.last()
@@ -124,16 +124,18 @@ class Polynom(vararg coeffs: Double) {
             newList[newList.size - 1] = partOfAnswer
             val currentPolynom = Polynom(newList.reversed()) * other
             divisible -= currentPolynom
+            rem = divisible
             i--
         }
-
-        return Polynom(answerList)
+        return if (flag == 0) Polynom(answerList) else rem
     }
+
+    operator fun div(other: Polynom): Polynom = divOrRem(other, 0)
 
     /**
      * Взятие остатка
      */
-    operator fun rem(other: Polynom): Polynom = this.minus(other.times(this.div(other)))
+    operator fun rem(other: Polynom): Polynom = divOrRem(other, 1)
 
     /**
      * Сравнение на равенство
