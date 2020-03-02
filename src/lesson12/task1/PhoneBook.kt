@@ -21,6 +21,8 @@ class PhoneBook {
 
     private val info = mutableMapOf<String, MutableSet<String>>()
 
+    fun copy() = PhoneBook()
+
     /**
      * Добавить человека.
      * Возвращает true, если человек был успешно добавлен,
@@ -100,6 +102,7 @@ class PhoneBook {
         return null
     }
 
+
     /**
      * Две телефонные книги равны, если в них хранится одинаковый набор людей,
      * и каждому человеку соответствует одинаковый набор телефонов.
@@ -108,6 +111,8 @@ class PhoneBook {
     override fun equals(other: Any?): Boolean = other is PhoneBook && this.info == other.info
 
     override fun hashCode(): Int = info.hashCode()
+
+    override fun toString(): String = info.toString()
 
 
 }

@@ -12,15 +12,22 @@ internal class PhoneBookTest {
         assertTrue(book.addHuman("Иванов Петр"))
         assertTrue(book.addHuman("Васильев Дмитрий"))
         assertFalse(book.addHuman("Иванов Петр"))
+        val book1 = book.copy()
+        assertTrue(book1.addHuman("Зайцев Евгений"))
+        assertFalse(book == book1)
     }
 
     @Test
     fun removeHuman() {
         val book = PhoneBook()
         assertTrue(book.addHuman("Иванов Петр"))
+        assertTrue(book.addHuman("Фролов Максим"))
         assertTrue(book.addHuman("Васильев Дмитрий"))
         assertTrue(book.removeHuman("Иванов Петр"))
         assertFalse(book.removeHuman("Сидорова Мария"))
+        val book1 = book.copy()
+        assertTrue(book1.addHuman("Иванов Петр"))
+        assertFalse(book == book1)
     }
 
     @Test

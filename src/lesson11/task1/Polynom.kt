@@ -37,7 +37,10 @@ class Polynom(vararg coeffs: Double) {
     fun getValue(x: Double): Double {
         var ans = 0.0
         var a = 1.0
-        trueCoeffs.forEach { ans += a * it; a *= x }
+        for (i in trueCoeffs) {
+            ans += i * a
+            a *= x
+        }
         return ans
     }
 
@@ -49,9 +52,8 @@ class Polynom(vararg coeffs: Double) {
      * степень 0x^2+0x+2 также равна 0.
      */
     fun degree(): Int {
-        val size = trueCoeffs.reversed().size - 1
-        for (i in trueCoeffs.reversed().indices) {
-            return size - i
+        for (i in trueCoeffs.indices.reversed()) {
+            if (trueCoeffs[i] != 0.0) return i
         }
         return 0
     }
@@ -105,11 +107,11 @@ class Polynom(vararg coeffs: Double) {
 
     /**
      * Функция, которая сразу делит многочлен на многочлен и ищет остаток
-     * от деления. Этой функции передается флаг.
-     * Если флаг равен 0, значит функция будет выводить результат деления,
-     * в противном случае результат взятия остатка.
+     * от деления.
+     * Возвращает два многочлена в виде пары, далее в соответствующих
+     * функциях выбирается нужная часть.
      */
-    fun divOrRem(other: Polynom, flag: Int): Polynom {
+    private fun divOrRem(other: Polynom): Pair<Polynom, Polynom> {
         var divisible = this
         val answerList = mutableListOf<Double>()
         var i = divisible.trueCoeffs.size - other.trueCoeffs.size
@@ -125,7 +127,7 @@ class Polynom(vararg coeffs: Double) {
             rem = divisible
             i--
         }
-        return if (flag == 0) Polynom(answerList) else rem
+        return Pair(Polynom(answerList), rem)
     }
 
     /**
@@ -136,12 +138,12 @@ class Polynom(vararg coeffs: Double) {
      *
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
-    operator fun div(other: Polynom): Polynom = divOrRem(other, 0)
+    operator fun div(other: Polynom): Polynom = divOrRem(other).first
 
     /**
      * Взятие остатка
      */
-    operator fun rem(other: Polynom): Polynom = divOrRem(other, 1)
+    operator fun rem(other: Polynom): Polynom = divOrRem(other).second
 
     /**
      * Сравнение на равенство
