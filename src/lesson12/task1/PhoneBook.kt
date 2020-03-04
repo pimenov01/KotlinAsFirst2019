@@ -89,7 +89,7 @@ class PhoneBook {
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> = info.getOrDefault(name, emptySet<String>().toMutableSet())
+    fun phones(name: String): Set<String> = info.getOrDefault(name, mutableSetOf())
 
     /**
      * Вернуть имя человека по заданному номеру телефона.

@@ -52,10 +52,9 @@ class Polynom(vararg coeffs: Double) {
      * степень 0x^2+0x+2 также равна 0.
      */
     fun degree(): Int {
-        for (i in trueCoeffs.indices.reversed()) {
-            if (trueCoeffs[i] != 0.0) return i
-        }
-        return 0
+        val currentCoeffs = trueCoeffs.dropWhile { it == 0.0 }
+        return if (currentCoeffs.isEmpty()) 0
+        else currentCoeffs.size - 1
     }
 
     /**
@@ -111,7 +110,7 @@ class Polynom(vararg coeffs: Double) {
      * Возвращает два многочлена в виде пары, далее в соответствующих
      * функциях выбирается нужная часть.
      */
-    private fun divOrRem(other: Polynom): Pair<Polynom, Polynom> {
+    private fun divAndRem(other: Polynom): Pair<Polynom, Polynom> {
         var divisible = this
         val answerList = mutableListOf<Double>()
         var i = divisible.trueCoeffs.size - other.trueCoeffs.size
@@ -138,12 +137,12 @@ class Polynom(vararg coeffs: Double) {
      *
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
-    operator fun div(other: Polynom): Polynom = divOrRem(other).first
+    operator fun div(other: Polynom): Polynom = divAndRem(other).first
 
     /**
      * Взятие остатка
      */
-    operator fun rem(other: Polynom): Polynom = divOrRem(other).second
+    operator fun rem(other: Polynom): Polynom = divAndRem(other).second
 
     /**
      * Сравнение на равенство
